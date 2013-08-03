@@ -1,0 +1,15 @@
+{
+    "name": "pedrofornaza/tasker",
+    "description": "Project Management made easy",
+    "authors": [
+        {
+            "name": "Pedro Fornaza",
+            "email": "pedro.fornaza@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0" : {
+            "Tasker": "src/"
+        }
+    }
+}

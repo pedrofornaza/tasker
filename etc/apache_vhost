@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	ServerName tasker.dev
+	ServerAlias www.tasker.dev
+
+	DocumentRoot /your/path/to/tasker/public
+	<Directory /your/path/to/tasker/public>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+</VirtualHost>
