@@ -24,16 +24,16 @@ class Tasks
             echo 'You should specify a Task to search';
             exit;
         }
-        
+
         $task = $mapper->get($id);
 
-        $taskMapper = new TimeMapper($this->db);
-        $tasks = $taskMapper->getByTask($id);
+        $timeMapper = new TimeMapper($this->db);
+        $times = $timeMapper->getByTask($id);
 
         $viewName = '../templates/tasks/detail.php';
         $viewParams = array(
             'task' => $task,
-            'times'   => $tasks
+            'times'   => $times
         );
 
         $view = new View($viewName);
