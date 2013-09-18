@@ -20,7 +20,7 @@
 	<h2>Times</h2>
 	<ul>
 		<?php foreach ($params['times'] as $time) : ?>
-			<li><?= $time->getStart() ?> <?php if ($time->getEnd() == null) : ?> - <a href="/time/<?= $time->getId() ?>">Close</a><?php endif; ?></li>
+			<li><?= $time->getStart() ?> - <?php if ($time->getEnd() == null) : ?> <a href="/times/<?= $time->getId() ?>">Close</a><?php else: ?> <?= $time->getEnd() ?><?php endif ?></li>
 		<?php endforeach ?>
 	</ul>
 	<?php endif ?>

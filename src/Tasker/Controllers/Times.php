@@ -17,8 +17,22 @@ class Times
 
     public function get($id = null)
     {
-        echo 'You cannot access a time registry';
-        exit;
+        $mapper = new TimeMapper($this->db);
+
+        if ($id == null) {
+            echo 'You should specify a Task to search';
+            exit;
+        }
+
+        $time = $mapper->get($id);
+
+        $viewName = '../templates/times/detail.php';
+        $viewParams = array(
+            'time' => $time,
+        );
+
+        $view = new View($viewName);
+        return $view->render($viewParams);
     }
 
     public function post($id = null)
@@ -27,7 +41,7 @@ class Times
 
         try {
             $datetime = new \Datetime();
-            
+
             $entity = new TimeEntity();
             $entity->setStart($datetime->format('Y-m-d h:i:s'));
             if ($_POST['time']['type'] == 'end') {

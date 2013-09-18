@@ -52,11 +52,28 @@ class Time
     	}
     }
 
-	public function getByTask($task)
+	public function get($id)
 	{
-		$sql = 'SELECT * FROM times WHERE task = :task';
+		$sql = 'SELECT * FROM times WHERE id = :id';
 		$stm = $this->db->prepare($sql);
-		$stm->bindValue(':task', $task);
+		$stm->bindValue(':id', $id);
+        $stm->execute();
+
+        $result = $stm->fetch();
+        $entity = new Entity;
+        $entity->setId($result['id'])
+               ->setTask($result['task'])
+               ->setStart($result['start'])
+               ->setEnd($result['end']);
+
+        return $entity;
+	}
+
+    public function getByTask($task)
+    {
+        $sql = 'SELECT * FROM times WHERE task = :task';
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(':task', $task);
         $stm->execute();
 
         $result = $stm->fetchAll();
@@ -74,7 +91,7 @@ class Time
         }
 
         return $times;
-	}
+    }
 
     public function getAll()
     {
