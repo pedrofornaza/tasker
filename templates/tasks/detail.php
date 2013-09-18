@@ -7,7 +7,7 @@
 <body>
 	<h1>#<?= $params['task']->getId() ?> - <?= $params['task']->getName() ?></h1>
 
-	<o>Description: <?= $params['task']->getDescription() ?></p>
+	<p>Description: <?= $params['task']->getDescription() ?></p>
 	<p>Status: <?= ucfirst($params['task']->getStatus()) ?></p>
 
 	<form method="post" action="/times">
@@ -20,7 +20,7 @@
 	<h2>Times</h2>
 	<ul>
 		<?php foreach ($params['times'] as $time) : ?>
-			<li><?= $time->getStart() ?> <?php if ($time->getEnd() == null) : ?> - <a href="/time/">Close</a><?php endif; ?></li>
+			<li><?= $time->getStart() ?> <?php if ($time->getEnd() == null) : ?> - <a href="/time/<?= $time->getId() ?>">Close</a><?php endif; ?></li>
 		<?php endforeach ?>
 	</ul>
 	<?php endif ?>
