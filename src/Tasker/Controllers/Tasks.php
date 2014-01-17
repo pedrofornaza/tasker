@@ -21,23 +21,27 @@ class Tasks
         $mapper = new TaskMapper($this->db);
 
         if ($id == null) {
-            echo 'You should specify a Task to search';
-            exit;
+            return 'You should specify a Task to search.';
         }
 
-        $task = $mapper->get($id);
+        try {
+            $task = $mapper->get($id);
 
-        $timeMapper = new TimeMapper($this->db);
-        $times = $timeMapper->getByTask($id);
+            $timeMapper = new TimeMapper($this->db);
+            $times = $timeMapper->getByTask($id);
 
-        $viewName = '../templates/tasks/detail.php';
-        $viewParams = array(
-            'task' => $task,
-            'times'   => $times
-        );
+            $viewName = '../templates/tasks/detail.php';
+            $viewParams = array(
+                'task' => $task,
+                'times'   => $times
+            );
 
-        $view = new View($viewName);
-        return $view->render($viewParams);
+            $view = new View($viewName);
+            return $view->render($viewParams);
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function post($id = null)
@@ -58,8 +62,9 @@ class Tasks
             $mapper->save($entity);
 
             header('Location: /tasks/'.$entity->getId());
+
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 }

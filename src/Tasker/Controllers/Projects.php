@@ -18,27 +18,44 @@ class Projects
 
     public function get($id = null)
     {
-        $mapper = new ProjectMapper($this->db);
+        $this->mapper = new ProjectMapper($this->db);
 
+        $method = 'getAll';
         if ($id != null) {
-            $project = $mapper->get($id);
-
-            $taskMapper = new TaskMapper($this->db);
-            $tasks = $taskMapper->getByProject($id);
-
-            $viewName = '../templates/projects/detail.php';
-            $viewParams = array(
-                'project' => $project,
-                'tasks'   => $tasks
-            );
-        } else {
-            $projects = $mapper->getAll();
-
-            $viewName = '../templates/projects/list.php';
-            $viewParams = array('projects' => $projects);
+            $method = 'getOne';
         }
 
-        $view = new View($viewName);
+        try {
+            return $this->$method($id);
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    protected function getOne($id)
+    {
+        $project = $this->mapper->get($id);
+
+        $taskMapper = new TaskMapper($this->db);
+        $tasks = $taskMapper->getByProject($id);
+
+        $viewParams = array(
+            'project' => $project,
+            'tasks'   => $tasks
+        );
+
+        $view = new View('../templates/projects/detail.php');
+        return $view->render($viewParams);
+    }
+
+    protected function getAll()
+    {
+        $projects = $this->mapper->getAll();
+
+        $viewParams = array('projects' => $projects);
+
+        $view = new View('../templates/projects/list.php');
         return $view->render($viewParams);
     }
 
@@ -58,8 +75,9 @@ class Projects
             $mapper->save($entity);
 
             header('Location: /projects/'.$entity->getId());
+
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 }

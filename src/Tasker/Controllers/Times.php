@@ -17,22 +17,7 @@ class Times
 
     public function get($id = null)
     {
-        $mapper = new TimeMapper($this->db);
-
-        if ($id == null) {
-            echo 'You should specify a Task to search';
-            exit;
-        }
-
-        $time = $mapper->get($id);
-
-        $viewName = '../templates/times/detail.php';
-        $viewParams = array(
-            'time' => $time,
-        );
-
-        $view = new View($viewName);
-        return $view->render($viewParams);
+        return 'You cannot access times directly.';
     }
 
     public function post($id = null)
@@ -54,6 +39,7 @@ class Times
             $mapper->save($entity);
 
             header('Location: /tasks/'.$entity->getTask());
+
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
