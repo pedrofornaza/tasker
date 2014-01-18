@@ -3,22 +3,26 @@
 namespace Tasker\Domain\Mappers;
 
 use Exception;
-use PDO;
 use Tasker\Domain\Entities\Task as Entity;
+use Tasker\Domain\Entities\Factories\Task as Factory;
+use Tasker\Domain\Repositories\Task as Repository;
 
 class Task
 {
-	protected $db;
+    protected $repository;
+    protected $factory;
 
-	public function __construct(PDO $db)
+	public function __construct(Repository $repository, Factory $factory)
 	{
-		$this->db = $db;
+		$this->repository = $repository;
+        $this->factory = $factory;
 	}
 
     public function save(Entity $task)
     {
         if ($task->getId() !== null) {
             $this->update($task);
+
         } else {
             $this->insert($task);
         }
@@ -26,77 +30,46 @@ class Task
 
 	public function insert(Entity $task)
     {
-    	$sql = 'INSERT INTO tasks (project, name, description, status) VALUES (:project, :name, :description, :status)';
-    	$stm = $this->db->prepare($sql);
+        $data = array(
+        	'project'     => $task->getProject(),
+            'name'        => $task->getName(),
+        	'description' => $task->getDescription(),
+        	'status'      => $task->getStatus(),
+        );
 
-        $stm->bindValue(':project', $task->getProject());
-        $stm->bindValue(':name', $task->getName());
-    	$stm->bindValue(':description', $task->getDescription());
-    	$stm->bindValue(':status', $task->getStatus());
-
-    	if (!$stm->execute()) {
-            throw new Exception("Something went wrong inserting the task '{$task->getName()}'");
-        }
-
-
-    	$id = $this->db->lastInsertId();
+    	$id = $this->repository->insert($data);
     	$task->setId($id);
     }
 
     public function update(Entity $task)
     {
-    	$sql = 'UPDATE tasks set name = :name, description = :description, status = :status WHERE id = :id';
-    	$stm = $this->db->prepare($sql);
+        $data = array(
+            'id'          => $task->getId(),
+            'name'        => $task->getName(),
+            'description' => $task->getDescription(),
+            'status'      => $task->getStatus(),
+        );
 
-        $stm->bindValue(':name', $task->getName());
-    	$stm->bindValue(':description', $task->getDescription());
-    	$stm->bindValue(':status', $task->getStatus());
-    	$stm->bindValue(':id', $task->getId());
-
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong updating the task '{$task->getName()}'");
-    	}
+        $this->repository->update($data);
     }
 
 	public function get($id)
 	{
-		$sql = 'SELECT * FROM tasks WHERE id = :id';
-		$stm = $this->db->prepare($sql);
-		$stm->bindValue(':id', $id);
+		$data = $this->repository->get($id);
+        if (!$data) {
+            throw new Exception("The task '{$id}' could not be found.");
+        }
 
-		if (!$stm->execute()) {
-			throw new Exception('The task cannot be found.');
-		}
-
-		$result = $stm->fetch();
-		$entity = new Entity;
-		$entity->setId($result['id'])
-               ->setName($result['name'])
-			   ->setDescription($result['description'])
-			   ->setStatus($result['status']);
-
-		return $entity;
+		return $this->factory->build($data);
 	}
 
     public function getByProject($project)
     {
-        $sql = 'SELECT * FROM tasks WHERE project = :project';
-        $stm = $this->db->prepare($sql);
-        $stm->bindValue(':project', $project);
-        $stm->execute();
-
-        $result = $stm->fetchAll();
+        $data = $this->repository->getByProject($project);
 
         $tasks = array();
-
-        foreach ($result as $row) {
-            $entity = new Entity;
-            $entity->setId($row['id'])
-                   ->setName($row['name'])
-                   ->setDescription($row['description'])
-                   ->setStatus($row['status']);
-
-            $tasks[] = clone $entity;
+        foreach ($data as $row) {
+            $tasks[] = $this->factory->build($row);
         }
 
         return $tasks;
@@ -104,22 +77,11 @@ class Task
 
     public function getAll()
     {
-        $sql = 'SELECT * FROM tasks';
-        $stm = $this->db->prepare($sql);
-        $stm->execute();
-
-        $result = $stm->fetchAll();
+        $data = $this->repository->getAll();
 
         $tasks = array();
-
-        foreach ($result as $row) {
-            $entity = new Entity;
-            $entity->setId($row['id'])
-                   ->setName($row['name'])
-                   ->setDescription($row['description'])
-                   ->setStatus($row['status']);
-
-            $tasks[] = clone $entity;
+        foreach ($data as $row) {
+            $tasks[] = $this->factory->build($row);
         }
 
         return $tasks;

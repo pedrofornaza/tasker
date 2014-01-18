@@ -3,22 +3,26 @@
 namespace Tasker\Domain\Mappers;
 
 use Exception;
-use PDO;
 use Tasker\Domain\Entities\Time as Entity;
+use Tasker\Domain\Entities\Factories\Time as Factory;
+use Tasker\Domain\Repositories\Time as Repository;
 
 class Time
 {
-	protected $db;
+    protected $repository;
+	protected $factory;
 
-	public function __construct(PDO $db)
+	public function __construct(Repository $repository, Factory $factory)
 	{
-		$this->db = $db;
+        $this->repository = $repository;
+		$this->factory = $factory;
 	}
 
     public function save(Entity $time)
     {
         if ($time->getId() !== null) {
             $this->update($time);
+
         } else {
             $this->insert($time);
         }
@@ -26,69 +30,42 @@ class Time
 
 	public function insert(Entity $time)
     {
-    	$sql = 'INSERT INTO times (task, start) VALUES (:task, :start)';
-    	$stm = $this->db->prepare($sql);
+    	$data = array(
+            'task' => $time->getTask(),
+            'start' => $time->getStart()->format('Y-m-d h:i:s'),
+        );
 
-    	$stm->bindValue(':task', $time->getTask());
-        $stm->bindValue(':start', $time->getStart());
-
-        if (!$stm->execute()) {
-            throw new Exception("Something went wrong inserting the time");
-        }
-
-        $id = $this->db->lastInsertId();
+        $id = $this->repository->insert($data);
         $time->setId($id);
     }
 
     public function update(Entity $time)
     {
-        $sql = 'UPDATE times set end = :end WHERE id = :id';
-        $stm = $this->db->prepare($sql);
+        $data = array(
+            'id'  => $time->getId(),
+            'end' => $time->getEnd(),
+        );
 
-    	$stm->bindValue(':end', $time->getEnd());
-    	$stm->bindValue(':id', $time->getId());
-
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong updating the time");
-    	}
+    	$this->repository->update($data);
     }
 
 	public function get($id)
 	{
-		$sql = 'SELECT * FROM times WHERE id = :id';
-		$stm = $this->db->prepare($sql);
-		$stm->bindValue(':id', $id);
-        $stm->execute();
+		$data = $this->repository->get($id);
+        if (!$data) {
+            throw new Exception("The time '{$id}' could not be found");
+        }
 
-        $result = $stm->fetch();
-        $entity = new Entity;
-        $entity->setId($result['id'])
-               ->setTask($result['task'])
-               ->setStart($result['start'])
-               ->setEnd($result['end']);
-
-        return $entity;
+        return $this->factory->build($data);
 	}
 
     public function getByTask($task)
     {
-        $sql = 'SELECT * FROM times WHERE task = :task';
-        $stm = $this->db->prepare($sql);
-        $stm->bindValue(':task', $task);
-        $stm->execute();
-
-        $result = $stm->fetchAll();
+        $data = $this->repository->getByTask($task);
 
         $times = array();
-
-        foreach ($result as $row) {
-            $entity = new Entity;
-            $entity->setId($row['id'])
-                   ->setTask($row['task'])
-                   ->setStart($row['start'])
-                   ->setEnd($row['end']);
-
-            $times[] = clone $entity;
+        foreach ($data as $row) {
+            $times[] = $this->factory->build($row);
         }
 
         return $times;
@@ -96,22 +73,11 @@ class Time
 
     public function getAll()
     {
-        $sql = 'SELECT * FROM times';
-        $stm = $this->db->prepare($sql);
-        $stm->execute();
-
-        $result = $stm->fetchAll();
+        $data = $this->repository->getAll($task);
 
         $times = array();
-
-        foreach ($result as $row) {
-            $entity = new Entity;
-            $entity->setId($row['id'])
-                   ->setTask($row['task'])
-                   ->setStart($row['start'])
-                   ->setEnd($row['end']);
-
-            $times[] = clone $entity;
+        foreach ($data as $row) {
+            $times[] = $this->factory->build($row);
         }
 
         return $times;

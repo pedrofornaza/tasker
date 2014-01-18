@@ -2,23 +2,27 @@
 
 namespace Tasker\Domain\Mappers;
 
-use PDO;
 use Exception;
 use Tasker\Domain\Entities\Project as Entity;
+use Tasker\Domain\Entities\Factories\Project as Factory;
+use Tasker\Domain\Repositories\Project as Repository;
 
 class Project
 {
-	protected $db;
+    protected $repository;
+	protected $factory;
 
-	public function __construct(PDO $db)
+	public function __construct(Repository $repository, Factory $factory)
 	{
-		$this->db = $db;
+		$this->repository = $repository;
+        $this->factory = $factory;
 	}
 
     public function save(Entity $project)
     {
         if ($project->getId() !== null) {
             $this->update($project);
+
         } else {
             $this->insert($project);
         }
@@ -26,72 +30,43 @@ class Project
 
     public function insert(Entity $project)
     {
-    	$sql = 'INSERT INTO projects (name, description) VALUES (:name, :description)';
-    	$stm = $this->db->prepare($sql);
+        $data = array(
+            'name'        => $project->getName(),
+            'description' => $project->getDescription(),
+        );
 
-    	$stm->bindValue(':name', $project->getName());
-    	$stm->bindValue(':description', $project->getDescription());
-
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong inserting the project '{$project->getName()}'");
-    	}
-
-    	$id = $this->db->lastInsertId();
+    	$id = $this->repository->insert($data);
     	$project->setId($id);
     }
 
     public function update(Entity $project)
     {
-    	$sql = 'UPDATE projects set name = :name, description = :description WHERE id = :id';
-    	$stm = $this->db->prepare($sql);
+        $data = array(
+            'name'        => $project->getName(),
+            'description' => $project->getDescription(),
+            'id'          => $project->getId(),
+        );
 
-    	$stm->bindValue(':name', $project->getName());
-    	$stm->bindValue(':description', $project->getDescription());
-    	$stm->bindValue(':id', $project->getId());
-
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong updating the project '{$project->getName()}'");
-    	}
+        $this->repository->update($data);
     }
 
 	public function get($id)
 	{
-		$sql = 'SELECT * FROM projects WHERE id = :id';
-		$stm = $this->db->prepare($sql);
-		$stm->bindValue(':id', $id);
+		$data = $this->repository->get($id);
+        if (!$data) {
+            throw new Exception("The project '{$id}' could not be found.");
+        }
 
-		if (!$stm->execute()) {
-			throw new Exception('The project cannot be found.');
-		}
-
-		$result = $stm->fetch();
-		$entity = new Entity;
-		$entity->setId($result['id'])
-			   ->setName($result['name'])
-			   ->setDescription($result['description']);
-
-		return $entity;
+		return $this->factory->build($data);
 	}
 
     public function getAll()
     {
-        $sql = 'SELECT * FROM projects';
-        $stm = $this->db->prepare($sql);
+        $data = $this->repository->getAll();
 
-        if (!$stm->execute()) {
-            throw new Exception('No project cant be found.');
-        }
-
-        $result = $stm->fetchAll();
         $projects = array();
-
-        foreach ($result as $row) {
-            $entity = new Entity;
-            $entity->setId($row['id'])
-                   ->setName($row['name'])
-                   ->setDescription($row['description']);
-
-            $projects[] = clone $entity;
+        foreach ($data as $row) {
+            $projects[] = $this->factory->build($row);
         }
 
         return $projects;
