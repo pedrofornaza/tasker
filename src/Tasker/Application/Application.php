@@ -1,10 +1,12 @@
 <?php
 
-namespace Tasker;
+namespace Tasker\Application;
+
+use PDO;
 
 class Application
 {
-	public function __construct(\PDO $db)
+	public function __construct(PDO $db)
 	{
 		$this->db = $db;
 	}

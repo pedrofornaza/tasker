@@ -1,16 +1,19 @@
 <?php
 
-namespace Tasker\Controllers;
+namespace Tasker\Application\Controllers;
 
-use Tasker\Entities\Time as TimeEntity;
-use Tasker\Mappers\Time as TimeMapper;
-use Tasker\View;
+use DateTime;
+use Exception;
+use PDO;
+use Tasker\Domain\Entities\Time as TimeEntity;
+use Tasker\Domain\Mappers\Time as TimeMapper;
+use Tasker\Application\View;
 
 class Times
 {
     protected $db;
 
-    public function __construct(\PDO $db)
+    public function __construct(PDO $db)
     {
         $this->db = $db;
     }
@@ -25,7 +28,7 @@ class Times
         $mapper = new TimeMapper($this->db);
 
         try {
-            $datetime = new \Datetime();
+            $datetime = new DateTime();
 
             $entity = new TimeEntity();
             $entity->setStart($datetime->format('Y-m-d h:i:s'));
@@ -40,7 +43,7 @@ class Times
 
             header('Location: /tasks/'.$entity->getTask());
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }

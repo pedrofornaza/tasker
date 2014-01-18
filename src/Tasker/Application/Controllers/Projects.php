@@ -1,17 +1,19 @@
 <?php
 
-namespace Tasker\Controllers;
+namespace Tasker\Application\Controllers;
 
-use Tasker\Entities\Project as ProjectEntity;
-use Tasker\Mappers\Project as ProjectMapper;
-use Tasker\Mappers\Task as TaskMapper;
-use Tasker\View;
+use Exception;
+use PDO;
+use Tasker\Application\View;
+use Tasker\Domain\Entities\Project as ProjectEntity;
+use Tasker\Domain\Mappers\Project as ProjectMapper;
+use Tasker\Domain\Mappers\Task as TaskMapper;
 
 class Projects
 {
     protected $db;
 
-    public function __construct(\PDO $db)
+    public function __construct(PDO $db)
     {
         $this->db = $db;
     }
@@ -28,7 +30,7 @@ class Projects
         try {
             return $this->$method($id);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -76,7 +78,7 @@ class Projects
 
             header('Location: /projects/'.$entity->getId());
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }

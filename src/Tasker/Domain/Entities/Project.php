@@ -1,6 +1,8 @@
 <?php
 
-namespace Tasker\Entities;
+namespace Tasker\Domain\Entities;
+
+use InvalidArgumentException;
 
 class Project
 {
@@ -13,7 +15,7 @@ class Project
 		if (!is_int($id) &&
 			!is_numeric($id)
 		) {
-			throw new \InvalidArgumentException('The project id must be integer.');
+			throw new InvalidArgumentException('The project id must be integer.');
 		}
 
 		$this->id = (int) $id;
@@ -29,7 +31,7 @@ class Project
 	{
 		$name = trim($name);
 		if ($name == '') {
-			throw new \InvalidArgumentException('The project name cannot be null.');
+			throw new InvalidArgumentException('The project name cannot be null.');
 		}
 
 		$this->name = $name;

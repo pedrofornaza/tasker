@@ -1,14 +1,16 @@
 <?php
 
-namespace Tasker\Mappers;
+namespace Tasker\Domain\Mappers;
 
-use Tasker\Entities\Project as Entity;
+use PDO;
+use Exception;
+use Tasker\Domain\Entities\Project as Entity;
 
 class Project
 {
 	protected $db;
 
-	public function __construct(\PDO $db)
+	public function __construct(PDO $db)
 	{
 		$this->db = $db;
 	}
@@ -31,7 +33,7 @@ class Project
     	$stm->bindValue(':description', $project->getDescription());
 
     	if (!$stm->execute()) {
-    		throw new \Exception("Something went wrong inserting the project '{$project->getName()}'");
+    		throw new Exception("Something went wrong inserting the project '{$project->getName()}'");
     	}
 
     	$id = $this->db->lastInsertId();
@@ -48,7 +50,7 @@ class Project
     	$stm->bindValue(':id', $project->getId());
 
     	if (!$stm->execute()) {
-    		throw new \Exception("Something went wrong updating the project '{$project->getName()}'");
+    		throw new Exception("Something went wrong updating the project '{$project->getName()}'");
     	}
     }
 
@@ -59,7 +61,7 @@ class Project
 		$stm->bindValue(':id', $id);
 
 		if (!$stm->execute()) {
-			throw new \Exception('The project cannot be found.');
+			throw new Exception('The project cannot be found.');
 		}
 
 		$result = $stm->fetch();
@@ -77,7 +79,7 @@ class Project
         $stm = $this->db->prepare($sql);
 
         if (!$stm->execute()) {
-            throw new \Exception('No project cant be found.');
+            throw new Exception('No project cant be found.');
         }
 
         $result = $stm->fetchAll();

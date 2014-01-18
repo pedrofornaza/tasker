@@ -1,6 +1,8 @@
 <?php
 
-namespace Tasker\Entities;
+namespace Tasker\Domain\Entities;
+
+use InvalidArgumentException;
 
 class Task
 {
@@ -20,7 +22,7 @@ class Task
 		if (!is_int($id) && 
 			!is_numeric($id)
 		) {
-			throw new \InvalidArgumentException('The task id must be integer.');
+			throw new InvalidArgumentException('The task id must be integer.');
 		}
 
 		$this->id = (int) $id;
@@ -37,7 +39,7 @@ class Task
 		if (!is_int($project) &&
 			!is_numeric($project)
 		) {
-			throw new \InvalidArgumentException('The task project must be integer.');
+			throw new InvalidArgumentException('The task project must be integer.');
 		}
 
 		$this->project = (int) $project;
@@ -53,7 +55,7 @@ class Task
 	{
 		$name = trim($name);
 		if ($name == '') {
-			throw new \InvalidArgumentException('The task name cannot be null.');
+			throw new InvalidArgumentException('The task name cannot be null.');
 		}
 
 		$this->name = $name;
@@ -69,7 +71,7 @@ class Task
 	{
 		$description = trim($description);
 		if ($description == '') {
-			throw new \InvalidArgumentException('The task description cannot be null.');
+			throw new InvalidArgumentException('The task description cannot be null.');
 		}
 
 		$this->description = $description;
@@ -85,7 +87,7 @@ class Task
 	{
 		$status = strtolower($status);
 		if (!in_array($status, $this->validStatus)) {
-			throw new \InvalidArgumentException('The task status must be Ready, Doing or Done.');
+			throw new InvalidArgumentException('The task status must be Ready, Doing or Done.');
 		}
 
 		$this->status = $status;

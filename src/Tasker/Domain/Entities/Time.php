@@ -1,6 +1,9 @@
 <?php
 
-namespace Tasker\Entities;
+namespace Tasker\Domain\Entities;
+
+use DateTime;
+use InvalidArgumentException;
 
 class Time
 {
@@ -14,7 +17,7 @@ class Time
 		if (!is_int($id) &&
 			!is_numeric($id)
 		) {
-			throw new \InvalidArgumentException('The time id must be integer.');
+			throw new InvalidArgumentException('The time id must be integer.');
 		}
 
 		$this->id = (int) $id;
@@ -31,7 +34,7 @@ class Time
 		if (!is_int($task) && 
 			!is_numeric($task)
 		) {
-			throw new \InvalidArgumentException('The time task must be integer.');
+			throw new InvalidArgumentException('The time task must be integer.');
 		}
 
 		$this->task = (int) $task;
@@ -45,10 +48,10 @@ class Time
 
 	public function setStart($time)
 	{
-		$datetime = new \Datetime($time);
+		$datetime = new DateTime($time);
 		$errors = $datetime->getLastErrors();
 		if ($errors['error_count'] > 0) {
-			throw new \InvalidArgumentException('The task start must be a valid datetime and on format m/d/Y h:i:s.');
+			throw new InvalidArgumentException('The task start must be a valid datetime and on format m/d/Y h:i:s.');
 		}
 
 		$this->start = $datetime;
@@ -58,7 +61,7 @@ class Time
 	public function getStart()
 	{
 		$start = null;
-		if ($this->start instanceof \Datetime) {
+		if ($this->start instanceof DateTime) {
 			$start = $this->start->format('Y-m-d h:i:s');
 		}
 
@@ -71,10 +74,10 @@ class Time
 			return $this;
 		}
 
-		$datetime = new \Datetime($time);
+		$datetime = new DateTime($time);
 		$errors = $datetime->getLastErrors();
 		if ($errors['error_count'] > 0) {
-			throw new \InvalidArgumentException('The task end must be a valid datetime and on format m/d/Y h:i:s.');
+			throw new InvalidArgumentException('The task end must be a valid datetime and on format m/d/Y h:i:s.');
 		}
 
 		$this->end = $datetime;
@@ -84,7 +87,7 @@ class Time
 	public function getEnd()
 	{
 		$end = null;
-		if ($this->end instanceof \Datetime) {
+		if ($this->end instanceof DateTime) {
 			$end = $this->end->format('Y-m-d h:i:s');
 		}
 

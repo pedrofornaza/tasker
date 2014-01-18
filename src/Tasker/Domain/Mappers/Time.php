@@ -1,14 +1,16 @@
 <?php
 
-namespace Tasker\Mappers;
+namespace Tasker\Domain\Mappers;
 
-use Tasker\Entities\Time as Entity;
+use Exception;
+use PDO;
+use Tasker\Domain\Entities\Time as Entity;
 
 class Time
 {
 	protected $db;
 
-	public function __construct(\PDO $db)
+	public function __construct(PDO $db)
 	{
 		$this->db = $db;
 	}
@@ -29,10 +31,9 @@ class Time
 
     	$stm->bindValue(':task', $time->getTask());
         $stm->bindValue(':start', $time->getStart());
-        var_dump($time->getStart());
 
         if (!$stm->execute()) {
-            throw new \Exception("Something went wrong inserting the time");
+            throw new Exception("Something went wrong inserting the time");
         }
 
         $id = $this->db->lastInsertId();
@@ -48,7 +49,7 @@ class Time
     	$stm->bindValue(':id', $time->getId());
 
     	if (!$stm->execute()) {
-    		throw new \Exception("Something went wrong updating the time");
+    		throw new Exception("Something went wrong updating the time");
     	}
     }
 

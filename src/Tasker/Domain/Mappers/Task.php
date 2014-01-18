@@ -1,14 +1,16 @@
 <?php
 
-namespace Tasker\Mappers;
+namespace Tasker\Domain\Mappers;
 
-use Tasker\Entities\Task as Entity;
+use Exception;
+use PDO;
+use Tasker\Domain\Entities\Task as Entity;
 
 class Task
 {
 	protected $db;
 
-	public function __construct(\PDO $db)
+	public function __construct(PDO $db)
 	{
 		$this->db = $db;
 	}
@@ -33,7 +35,7 @@ class Task
     	$stm->bindValue(':status', $task->getStatus());
 
     	if (!$stm->execute()) {
-            throw new \Exception("Something went wrong inserting the task '{$task->getName()}'");
+            throw new Exception("Something went wrong inserting the task '{$task->getName()}'");
         }
 
 
@@ -52,7 +54,7 @@ class Task
     	$stm->bindValue(':id', $task->getId());
 
     	if (!$stm->execute()) {
-    		throw new \Exception("Something went wrong updating the task '{$task->getName()}'");
+    		throw new Exception("Something went wrong updating the task '{$task->getName()}'");
     	}
     }
 
@@ -63,7 +65,7 @@ class Task
 		$stm->bindValue(':id', $id);
 
 		if (!$stm->execute()) {
-			throw new \Exception('The task cannot be found.');
+			throw new Exception('The task cannot be found.');
 		}
 
 		$result = $stm->fetch();

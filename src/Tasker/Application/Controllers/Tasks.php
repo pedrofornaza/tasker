@@ -1,17 +1,19 @@
 <?php
 
-namespace Tasker\Controllers;
+namespace Tasker\Application\Controllers;
 
-use Tasker\Entities\Task as TaskEntity;
-use Tasker\Mappers\Task as TaskMapper;
-use Tasker\Mappers\Time as TimeMapper;
-use Tasker\View;
+use Exception;
+use PDO;
+use Tasker\Application\View;
+use Tasker\Domain\Entities\Task as TaskEntity;
+use Tasker\Domain\Mappers\Task as TaskMapper;
+use Tasker\Domain\Mappers\Time as TimeMapper;
 
 class Tasks
 {
     protected $db;
 
-    public function __construct(\PDO $db)
+    public function __construct(PDO $db)
     {
         $this->db = $db;
     }
@@ -39,7 +41,7 @@ class Tasks
             $view = new View($viewName);
             return $view->render($viewParams);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -63,7 +65,7 @@ class Tasks
 
             header('Location: /tasks/'.$entity->getId());
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }

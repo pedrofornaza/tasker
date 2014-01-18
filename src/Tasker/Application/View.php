@@ -1,6 +1,6 @@
 <?php
 
-namespace Tasker;
+namespace Tasker\Application;
 
 class View
 {
@@ -18,8 +18,10 @@ class View
 	{
 		ob_start();
 		include $this->path;
+
 		$content = ob_get_contents();
 		ob_end_clean();
+
 		return $content;
 	}
 }
