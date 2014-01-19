@@ -1,14 +1,15 @@
 <?php
 
-include '../vendor/autoload.php';
+require '../vendor/autoload.php';
 
-use Tasker\Application as App;
+use Exception;
+use Tasker\Application\Application;
 
 try {
-	$db = new PDO('mysql:host=localhost;dbname=tasker', '', '');
+	$container = include '../config/app.php';
 
-	$app = new App($db);
+	$app = new Application($container);
 	$app->run($_SERVER);
-} catch (\Exception $e) {
+} catch (Exception $e) {
 	echo $e->getMessage();
 }

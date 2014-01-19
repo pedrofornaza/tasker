@@ -3,7 +3,7 @@
 namespace Tasker\Application\Controllers;
 
 use Exception;
-use PDO;
+use Tasker\Application\Container;
 use Tasker\Application\View;
 use Tasker\Domain\Entities\Task as TaskEntity;
 use Tasker\Domain\Mappers\Task as TaskMapper;
@@ -11,16 +11,16 @@ use Tasker\Domain\Mappers\Time as TimeMapper;
 
 class Tasks
 {
-    protected $db;
+    protected $container;
 
-    public function __construct(PDO $db)
+    public function __construct(Container $container)
     {
-        $this->db = $db;
+        $this->container = $container;
     }
 
     public function get($id = null)
     {
-        $mapper = new TaskMapper($this->db);
+        $mapper = $this->container['task.mapper'];
 
         if ($id == null) {
             return 'You should specify a Task to search.';
@@ -29,7 +29,7 @@ class Tasks
         try {
             $task = $mapper->get($id);
 
-            $timeMapper = new TimeMapper($this->db);
+            $timeMapper = $this->container['time.mapper'];
             $times = $timeMapper->getByTask($id);
 
             $viewName = '../templates/tasks/detail.php';
@@ -48,7 +48,7 @@ class Tasks
 
     public function post($id = null)
     {
-        $mapper = new TaskMapper($this->db);
+        $mapper = $this->container['task.mapper'];
 
         try {
             $entity = new TaskEntity();

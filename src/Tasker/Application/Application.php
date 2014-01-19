@@ -3,12 +3,15 @@
 namespace Tasker\Application;
 
 use PDO;
+use Tasker\Application\Container;
 
 class Application
 {
-	public function __construct(PDO $db)
+	protected $container;
+
+	public function __construct(Container $container)
 	{
-		$this->db = $db;
+		$this->container = $container;
 	}
 
 	public function run($request)
@@ -17,13 +20,13 @@ class Application
 		list($controller, $id) = explode('/', $uri);
 		$method = strtolower($request['REQUEST_METHOD']);
 
-		$controllerName = 'Tasker\Controllers\\'.ucfirst($controller);
+		$controllerName = 'Tasker\Application\Controllers\\'.ucfirst($controller);
 		if (!class_exists($controllerName)) {
 			echo "<h1>The requested controller '{$controller}' could not be found</h1>";
 			exit;
 		}
 
-		$controllerInstance = new $controllerName($this->db);
+		$controllerInstance = new $controllerName($this->container);
 		$params = array();
 		if ($id !== null) {
 			array_push($params, $id);

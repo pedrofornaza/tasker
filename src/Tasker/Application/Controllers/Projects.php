@@ -3,7 +3,7 @@
 namespace Tasker\Application\Controllers;
 
 use Exception;
-use PDO;
+use Tasker\Application\Container;
 use Tasker\Application\View;
 use Tasker\Domain\Entities\Project as ProjectEntity;
 use Tasker\Domain\Mappers\Project as ProjectMapper;
@@ -11,17 +11,15 @@ use Tasker\Domain\Mappers\Task as TaskMapper;
 
 class Projects
 {
-    protected $db;
+    protected $container;
 
-    public function __construct(PDO $db)
+    public function __construct(Container $container)
     {
-        $this->db = $db;
+        $this->container = $container;
     }
 
     public function get($id = null)
     {
-        $this->mapper = new ProjectMapper($this->db);
-
         $method = 'getAll';
         if ($id != null) {
             $method = 'getOne';
@@ -37,9 +35,10 @@ class Projects
 
     protected function getOne($id)
     {
-        $project = $this->mapper->get($id);
+        $mapper = $this->container['project.mapper'];
+        $project = $mapper->get($id);
 
-        $taskMapper = new TaskMapper($this->db);
+        $taskMapper = $this->container['task.mapper'];
         $tasks = $taskMapper->getByProject($id);
 
         $viewParams = array(
@@ -53,7 +52,8 @@ class Projects
 
     protected function getAll()
     {
-        $projects = $this->mapper->getAll();
+        $mapper = $this->container['project.mapper'];
+        $projects = $mapper->getAll();
 
         $viewParams = array('projects' => $projects);
 
@@ -63,7 +63,7 @@ class Projects
 
     public function post($id = null)
     {
-        $mapper = new ProjectMapper($this->db);
+        $mapper = $this->container['project.mapper'];
 
         try {
             $entity = new ProjectEntity();

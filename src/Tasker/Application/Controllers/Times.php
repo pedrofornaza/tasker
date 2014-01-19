@@ -4,18 +4,18 @@ namespace Tasker\Application\Controllers;
 
 use DateTime;
 use Exception;
-use PDO;
+use Tasker\Application\Container;
 use Tasker\Domain\Entities\Time as TimeEntity;
 use Tasker\Domain\Mappers\Time as TimeMapper;
 use Tasker\Application\View;
 
 class Times
 {
-    protected $db;
+    protected $container;
 
-    public function __construct(PDO $db)
+    public function __construct(Container $container)
     {
-        $this->db = $db;
+        $this->container = $container;
     }
 
     public function get($id = null)
@@ -25,7 +25,7 @@ class Times
 
     public function post($id = null)
     {
-        $mapper = new TimeMapper($this->db);
+        $mapper = $this->container['time.mapper'];
 
         try {
             $datetime = new DateTime();
