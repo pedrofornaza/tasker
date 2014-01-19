@@ -10,12 +10,16 @@ use Tasker\Domain\Mappers\Time as TimeMapper;
 use Tasker\Domain\Repositories\Project as ProjectRepository;
 use Tasker\Domain\Repositories\Task as TaskRepository;
 use Tasker\Domain\Repositories\Time as TimeRepository;
+use Tasker\Domain\Services\Project as ProjectService;
+use Tasker\Domain\Services\Task as TaskService;
+use Tasker\Domain\Services\Time as TimeService;
 
 $container = new Container();
 
 $container->share('database', function() {
 	return new PDO('mysql:host=localhost;dbname=tasker', 'root', 'root');
 });
+
 
 $container->share('project.mapper', function($container) {
 	$repository = new ProjectRepository($container['database']);
@@ -24,6 +28,11 @@ $container->share('project.mapper', function($container) {
 	return new ProjectMapper($repository, $factory);
 });
 
+$container->share('project.service', function($container) {
+	return new ProjectService($container['project.mapper']);
+});
+
+
 $container->share('task.mapper', function($container) {
 	$repository = new TaskRepository($container['database']);
 	$factory = new TaskFactory();
@@ -31,11 +40,20 @@ $container->share('task.mapper', function($container) {
 	return new TaskMapper($repository, $factory);
 });
 
+$container->share('task.service', function($container) {
+	return new TaskService($container['task.mapper']);
+});
+
+
 $container->share('time.mapper', function($container) {
 	$repository = new TimeRepository($container['database']);
 	$factory = new TimeFactory();
 
 	return new TimeMapper($repository, $factory);
+});
+
+$container->share('time.service', function($container) {
+	return new TimeService($container['time.mapper']);
 });
 
 return $container;

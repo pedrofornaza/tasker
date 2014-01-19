@@ -5,9 +5,6 @@ namespace Tasker\Application\Controllers;
 use Exception;
 use Tasker\Application\Container;
 use Tasker\Application\View;
-use Tasker\Domain\Entities\Project as ProjectEntity;
-use Tasker\Domain\Mappers\Project as ProjectMapper;
-use Tasker\Domain\Mappers\Task as TaskMapper;
 
 class Projects
 {
@@ -35,11 +32,11 @@ class Projects
 
     protected function getOne($id)
     {
-        $mapper = $this->container['project.mapper'];
-        $project = $mapper->get($id);
+        $projectService = $this->container['project.service'];
+        $project = $projectService->get($id);
 
-        $taskMapper = $this->container['task.mapper'];
-        $tasks = $taskMapper->getByProject($id);
+        $taskService = $this->container['task.service'];
+        $tasks = $taskService->getByProject($id);
 
         $viewParams = array(
             'project' => $project,
@@ -52,8 +49,8 @@ class Projects
 
     protected function getAll()
     {
-        $mapper = $this->container['project.mapper'];
-        $projects = $mapper->getAll();
+        $projectService = $this->container['project.service'];
+        $projects = $projectService->getAll();
 
         $viewParams = array('projects' => $projects);
 
@@ -63,20 +60,13 @@ class Projects
 
     public function post($id = null)
     {
-        $mapper = $this->container['project.mapper'];
-
         try {
-            $entity = new ProjectEntity();
-            if ($id != null) {
-                $entity = $mapper->get($id);
-            }
+            $projectService = $this->container['project.service'];
 
-            $entity->setName($_POST['project']['name'])
-                   ->setDescription($_POST['project']['description']);
+            $data = array_merge($_POST['project'], array('id' => $id));
+            $id = $projectService->save($data);
 
-            $mapper->save($entity);
-
-            header('Location: /projects/'.$entity->getId());
+            header('Location: /projects/'.$id);
 
         } catch (Exception $e) {
             return $e->getMessage();

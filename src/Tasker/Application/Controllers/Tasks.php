@@ -5,9 +5,6 @@ namespace Tasker\Application\Controllers;
 use Exception;
 use Tasker\Application\Container;
 use Tasker\Application\View;
-use Tasker\Domain\Entities\Task as TaskEntity;
-use Tasker\Domain\Mappers\Task as TaskMapper;
-use Tasker\Domain\Mappers\Time as TimeMapper;
 
 class Tasks
 {
@@ -20,22 +17,21 @@ class Tasks
 
     public function get($id = null)
     {
-        $mapper = $this->container['task.mapper'];
-
         if ($id == null) {
             return 'You should specify a Task to search.';
         }
 
         try {
-            $task = $mapper->get($id);
+            $taskService = $this->container['task.service'];
+            $task = $taskService->get($id);
 
-            $timeMapper = $this->container['time.mapper'];
-            $times = $timeMapper->getByTask($id);
+            $timeService = $this->container['time.service'];
+            $times = $timeService->getByTask($id);
 
             $viewName = '../templates/tasks/detail.php';
             $viewParams = array(
-                'task' => $task,
-                'times'   => $times
+                'task'  => $task,
+                'times' => $times
             );
 
             $view = new View($viewName);
@@ -48,22 +44,13 @@ class Tasks
 
     public function post($id = null)
     {
-        $mapper = $this->container['task.mapper'];
-
         try {
-            $entity = new TaskEntity();
-            if ($id != null) {
-                $entity = $mapper->get($id);
-            }
+            $taskService = $this->container['task.service'];
 
-            $entity->setProject($_POST['task']['project'])
-                   ->setName($_POST['task']['name'])
-                   ->setDescription($_POST['task']['description'])
-                   ->setStatus($_POST['task']['status']);
+            $data = array_merge($_POST['task'], array('id' => $id));
+            $id = $taskService->save($data);
 
-            $mapper->save($entity);
-
-            header('Location: /tasks/'.$entity->getId());
+            header('Location: /tasks/'.$id);
 
         } catch (Exception $e) {
             return $e->getMessage();
