@@ -32,7 +32,7 @@ class Time
     {
     	$data = array(
             'task' => $time->getTask(),
-            'start' => $time->getStart()->format('Y-m-d h:i:s'),
+            'start' => $time->getStart(),
         );
 
         $id = $this->repository->insert($data);
