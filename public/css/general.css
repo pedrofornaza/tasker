@@ -1,0 +1,76 @@
+body {
+	font-family: "Open Sans", sans-serif;
+	color: #4A4A4A;
+}
+
+#content {
+	background: #ffffff;
+	margin: 0px auto;
+	padding: 5px 20px;
+	width: 900px;
+}
+
+h1 {
+	color: #0074D9;
+	font-weight: 300;
+}
+
+h2 {
+	color: #39CCCC;
+	font-weight: 300;
+}
+
+a {
+	color: #0074D9;
+}
+
+.button, .mini-button {
+	background: #0074D9;
+	border: 2px solid #7DABD4;
+	border-radius: 5px 5px 5px;
+	color: #ffffff;
+	cursor: pointer;
+	padding: 10px 20px;
+}
+
+.button:hover, .mini-button:hover {
+	background: #7DABD4;
+	border: 2px solid #0074D9;
+}
+
+.mini-button {
+	padding: 5px 10px;
+}
+
+/** Form **/
+fieldset {
+	border: 1px solid #e1e1e1;
+	width: 500px;
+}
+
+input,
+select,
+textarea {
+	background: #FFFFFF;
+	border: 1px solid #AAAAAA;
+	border-radius: 3px 3px 3px;
+	min-height: 15px;
+	padding: 7px;
+	width: 300px;
+}
+
+.line {
+	padding: 10px;
+}
+
+.line label {
+	float: left;
+	height: 15px;
+	margin: 7px 10px 0px 0px;
+	text-align: right;
+	width: 150px;
+}
+
+.buttons {
+	text-align: right;
+}
