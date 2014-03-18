@@ -1,6 +1,7 @@
 <?php
 
 use Tasker\Application\Container;
+use Tasker\Application\Router;
 use Tasker\Domain\Entities\Factories\Project as ProjectFactory;
 use Tasker\Domain\Entities\Factories\Task as TaskFactory;
 use Tasker\Domain\Entities\Factories\Time as TimeFactory;
@@ -18,6 +19,12 @@ $container = new Container();
 
 $container->share('database', function() {
 	return new PDO('mysql:host=localhost;dbname=tasker', 'root', 'root');
+});
+
+
+$container->share('router', function() {
+	$routes = include __DIR__.'/routes.php';
+	return new Router($routes);
 });
 
 

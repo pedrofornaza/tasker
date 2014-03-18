@@ -17,20 +17,22 @@ class Application
 	public function run($request)
 	{
 		$uri = trim($request['REQUEST_URI'], '/');
-		list($controller, $id) = explode('/', $uri);
 		$method = strtolower($request['REQUEST_METHOD']);
 
-		$controllerName = 'Tasker\Application\Controllers\\'.ucfirst($controller);
-		if (!class_exists($controllerName)) {
-			echo "<h1>The requested controller '{$controller}' could not be found</h1>";
+		$router = $this->container['router'];
+		$result = $router->match($uri, $method);
+		if (!$result) {
+			echo "<h1>The requested controller could not be found</h1>";
 			exit;
 		}
 
-		$controllerInstance = new $controllerName($this->container);
-		$params = array();
-		if ($id !== null) {
-			array_push($params, $id);
+		if (!class_exists($result['target'])) {
+			echo "<h1>The controller does not exists</h1>";
+			exit;
 		}
+
+		$controllerInstance = new $result['target']($this->container);
+		$params = $result['params'];
 
 		$response = call_user_func_array(array($controllerInstance, $method), $params);
 		echo $response;
