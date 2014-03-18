@@ -43,22 +43,18 @@ a {
 	color: #0074D9;
 }
 
-.button, .mini-button {
+.button {
 	background: #0074D9;
 	border: 2px solid #7DABD4;
 	border-radius: 5px 5px 5px;
 	color: #ffffff;
 	cursor: pointer;
-	padding: 10px 20px;
+	padding: 5px 10px;
 }
 
-.button:hover, .mini-button:hover {
+.button:hover {
 	background: #7DABD4;
 	border: 2px solid #0074D9;
-}
-
-.mini-button {
-	padding: 5px 10px;
 }
 
 /** Form **/

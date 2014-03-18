@@ -36,7 +36,7 @@
 					<li>
 						Start: <?= $time->getStart() ?> - 
 						<?php if ($time->getEnd() == null) : ?> 
-							<button type="button" class="form-submit mini-button" value="<?= $time->getId() ?>">Close</button>
+							<button type="button" class="form-submit button" value="<?= $time->getId() ?>">Close</button>
 						<?php else: ?>
 							End: <?= $time->getEnd() ?>
 						<?php endif ?>
