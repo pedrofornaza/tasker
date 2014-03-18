@@ -9,6 +9,12 @@
 </head>
 <body>
 	<div id="content">
+		<div id="header">
+			<ul id="menu">
+				<li><a href="/projects">Projects</a></li>
+			</ul>
+		</div>
+
 		<h1>Projects</h1>
 
 		<?php if (!empty($params['projects'])) : ?>

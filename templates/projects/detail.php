@@ -9,6 +9,12 @@
 </head>
 <body>
 	<div id="content">
+		<div id="header">
+			<ul id="menu">
+				<li><a href="/projects"><img src="/img/back-arrow.png" /> Back to Projects</a></li>
+			</ul>
+		</div>
+
 		<h1>#<?= $params['project']->getId() ?> - <?= $params['project']->getName() ?></h1>
 
 		<p><?= $params['project']->getDescription() ?></p>
