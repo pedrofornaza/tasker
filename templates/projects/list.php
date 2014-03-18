@@ -26,9 +26,13 @@
 		</ul>
 		<?php endif ?>
 
-		<h2>Create a Project</h2>
-		<form method="post" action="/projects">
+		<a href="#" class="button show-create-form">Create a Project</a>
+		<form method="post" action="/projects" class="create-form">
 			<fieldset>
+				<div class="line buttons">
+					<a href="#" class="hide-create-form"><img src="/img/close.png" /></a>
+				</div>
+
 				<div class="line">
 					<label for="project-name">Project Name: </label>
 					<input placeholder="Project Name" type="text" name="project[name]" id="project-name" />
@@ -46,5 +50,7 @@
 			</fieldset>
 		</form>
 	</div>
+
+	<script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>

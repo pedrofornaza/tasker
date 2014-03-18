@@ -19,10 +19,14 @@
 
 		<p><?= $params['project']->getDescription() ?></p>
 
-		<h2>Create a Task</h2>
-		<form method="post" action="/tasks">
+		<a href="#" class="button show-create-form">Create a Task</a>
+		<form method="post" action="/tasks" class="create-form">
 			<fieldset>
 				<input type="hidden" name="task[project]" value="<?= $params['project']->getId() ?>" />
+
+				<div class="line buttons">
+					<a href="#" class="hide-create-form"><img src="/img/close.png" /></a>
+				</div>
 
 				<div class="line">
 					<label for="task-name">Task Name: </label>
@@ -60,5 +64,7 @@
 		</ul>
 		<?php endif ?>
 	</div>
+
+	<script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>

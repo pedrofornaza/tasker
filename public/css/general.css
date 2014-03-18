@@ -50,6 +50,7 @@ a {
 	color: #ffffff;
 	cursor: pointer;
 	padding: 5px 10px;
+	text-decoration: none;
 }
 
 .button:hover {
@@ -58,9 +59,12 @@ a {
 }
 
 /** Form **/
+.create-form {
+	margin-top: 20px;
+}
+
 fieldset {
 	border: 1px solid #e1e1e1;
-	width: 500px;
 }
 
 input,
