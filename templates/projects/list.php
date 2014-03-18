@@ -17,15 +17,6 @@
 
 		<h1>Projects</h1>
 
-		<?php if (!empty($params['projects'])) : ?>
-		<ul>
-			<?php foreach ($params['projects'] as $project) : ?>
-				<?php $projectid = $project->getId(); ?>
-				<li><a href="/projects/<?= $projectid ?>">#<?= $projectid ?></a> - <?= $project->getName() ?></li>
-			<?php endforeach ?>
-		</ul>
-		<?php endif ?>
-
 		<a href="#" class="button show-create-form">Create a Project</a>
 		<form method="post" action="/projects" class="create-form">
 			<fieldset>
@@ -49,6 +40,15 @@
 				</div>
 			</fieldset>
 		</form>
+
+		<?php if (!empty($params['projects'])) : ?>
+		<ul>
+			<?php foreach ($params['projects'] as $project) : ?>
+				<?php $projectid = $project->getId(); ?>
+				<li><a href="/projects/<?= $projectid ?>">#<?= $projectid ?></a> - <?= $project->getName() ?></li>
+			<?php endforeach ?>
+		</ul>
+		<?php endif ?>
 	</div>
 
 	<script type="text/javascript" src="/js/app.js"></script>
