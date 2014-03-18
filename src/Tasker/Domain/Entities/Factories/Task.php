@@ -10,6 +10,7 @@ class Task implements FactoryInterface
 	{
 		$entity = new Entity;
         $entity->setId($data['id'])
+               ->setProject($data['project'])
                ->setName($data['name'])
 			   ->setDescription($data['description'])
 			   ->setStatus($data['status']);
