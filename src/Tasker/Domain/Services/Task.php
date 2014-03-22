@@ -29,8 +29,8 @@ class Task
 		$entity = new Entity();
 	    $entity->setProject($data['project']);
 
-        if ($id != null) {
-	        $entity = $mapper->get($data['id']);
+        if ($data['id'] != null) {
+	        $entity = $this->mapper->get($data['id']);
 	    }
 
 	    $entity->setName($data['name'])

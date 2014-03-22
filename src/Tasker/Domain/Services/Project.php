@@ -28,7 +28,7 @@ class Project
 	{
 		$entity = new Entity();
         if ($data['id'] != null) {
-            $entity = $mapper->get($data['id']);
+            $entity = $this->mapper->get($data['id']);
         }
 
         $entity->setName($data['name'])
