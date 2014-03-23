@@ -31,15 +31,15 @@ class Task
         return $this->db->lastInsertId();
     }
 
-    public function update(Entity $task)
+    public function update($data)
     {
     	$sql = 'UPDATE tasks set name = :name, description = :description, status = :status WHERE id = :id';
     	$stm = $this->db->prepare($sql);
 
         $stm->bindValue(':name',        $data['name']);
-    	$stm->bindValue(':description', $data['description']);
-    	$stm->bindValue(':status',      $data['status']);
-    	$stm->bindValue(':id',          $data['id']);
+        $stm->bindValue(':description', $data['description']);
+        $stm->bindValue(':status',      $data['status']);
+        $stm->bindValue(':id',          $data['id']);
 
     	if (!$stm->execute()) {
     		throw new Exception("Something went wrong updating the task.");
