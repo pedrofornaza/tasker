@@ -10,11 +10,13 @@ return array(
 	new Route('/projects',     'get',  'Tasker\Application\Controllers\Projects'),
 	new Route('/projects/:id', 'get',  'Tasker\Application\Controllers\Projects'),
 	new Route('/projects',     'post', 'Tasker\Application\Controllers\Projects'),
+	new Route('/projects/:id', 'post', 'Tasker\Application\Controllers\Projects'),
 
 	// Tasks
 	new Route('/tasks',     'get',  'Tasker\Application\Controllers\Tasks'),
 	new Route('/tasks/:id', 'get',  'Tasker\Application\Controllers\Tasks'),
 	new Route('/tasks',     'post', 'Tasker\Application\Controllers\Tasks'),
+	new Route('/tasks/:id', 'post', 'Tasker\Application\Controllers\Tasks'),
 
 	// Times
 	new Route('/times',     'get',  'Tasker\Application\Controllers\Times'),

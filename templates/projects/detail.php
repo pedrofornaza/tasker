@@ -19,13 +19,38 @@
 
 		<p><?= $params['project']->getDescription() ?></p>
 
-		<a href="#" class="button show-create-form">Create a Task</a>
-		<form method="post" action="/tasks" class="create-form">
+		<a href="#" class="button show-project-form">Edit Project</a>
+		<a href="#" class="button show-task-form">Create a Task</a>
+
+		<form method="post" action="/projects/<?= $params['project']->getId() ?>" class="project-form">
+			<fieldset>
+				<div class="line buttons">
+					<a href="#" class="hide-project-form"><img src="/img/close.png" /></a>
+				</div>
+
+				<div class="line">
+					<label for="project-name">Project Name: </label>
+					<input placeholder="Project Name" type="text" name="project[name]" id="project-name" value="<?= $params['project']->getName() ?>" />
+				</div>
+
+				<div class="line">
+					<label for="project-desc">Project Description: </label>
+					<textarea placeholder="Project Description" name="project[description]" id="project-desc" rows="5"><?= $params['project']->getDescription() ?></textarea>
+				</div>
+
+				<div class="line buttons">
+					<button type="submit" class="button">Save</button>
+					<button type="reset" class="button">Clear</button>
+				</div>
+			</fieldset>
+		</form>
+
+		<form method="post" action="/tasks" class="task-form">
 			<fieldset>
 				<input type="hidden" name="task[project]" value="<?= $params['project']->getId() ?>" />
 
 				<div class="line buttons">
-					<a href="#" class="hide-create-form"><img src="/img/close.png" /></a>
+					<a href="#" class="hide-task-form"><img src="/img/close.png" /></a>
 				</div>
 
 				<div class="line">
@@ -66,5 +91,9 @@
 	</div>
 
 	<script type="text/javascript" src="/js/app.js"></script>
+	<script type="text/javascript">
+		makeHiddenForm('project');
+		makeHiddenForm('task');
+	</script>
 </body>
 </html>

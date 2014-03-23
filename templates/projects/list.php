@@ -17,11 +17,11 @@
 
 		<h1>Projects</h1>
 
-		<a href="#" class="button show-create-form">Create a Project</a>
-		<form method="post" action="/projects" class="create-form">
+		<a href="#" class="button show-project-form">Create a Project</a>
+		<form method="post" action="/projects" class="project-form">
 			<fieldset>
 				<div class="line buttons">
-					<a href="#" class="hide-create-form"><img src="/img/close.png" /></a>
+					<a href="#" class="hide-project-form"><img src="/img/close.png" /></a>
 				</div>
 
 				<div class="line">
@@ -52,5 +52,8 @@
 	</div>
 
 	<script type="text/javascript" src="/js/app.js"></script>
+	<script type="text/javascript">
+		makeHiddenForm('project');
+	</script>
 </body>
 </html>
