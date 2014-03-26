@@ -68,7 +68,7 @@ class Router
 		$i = 0; 
 		while($i < count($uriParts)) {
 			$next = $i + 1;
-			$params[$uriParts[$i]] = $uriParts[$next] ? : null;
+			$params[$uriParts[$i]] = isset($uriParts[$next]) ? $uriParts[$next] : null;
 
 			$i = $i + 2;
 		}
