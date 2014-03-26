@@ -11,5 +11,8 @@
         "psr-0" : {
             "Tasker": "src/"
         }
+    },
+    "require": {
+        "phpunit/phpunit": "*"
     }
 }
