@@ -1,0 +1,1 @@
+My view body with param: <?= $params['myparam'] ?>
