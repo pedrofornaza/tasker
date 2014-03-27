@@ -23,7 +23,7 @@ class Container implements ArrayAccess
             $this->data[$offset] = $this->shared[$offset]($this);
         }
 
-        return $this->data[$offset] ? : null;
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
     }
 
     public function offsetSet($offset, $value)
