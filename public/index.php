@@ -2,7 +2,6 @@
 
 require '../vendor/autoload.php';
 
-use Exception;
 use Tasker\Application\Application;
 
 try {
