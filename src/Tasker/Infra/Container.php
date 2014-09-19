@@ -1,6 +1,6 @@
 <?php
 
-namespace Tasker\Application;
+namespace Tasker\Infra;
 
 use ArrayAccess;
 use InvalidArgumentException;

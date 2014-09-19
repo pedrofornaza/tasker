@@ -1,6 +1,6 @@
 <?php
 
-use Tasker\Application\Route;
+use Tasker\Infra\Route;
 
 return array(
 	// Default route

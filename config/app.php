@@ -1,7 +1,7 @@
 <?php
 
-use Tasker\Application\Container;
-use Tasker\Application\Router;
+use Tasker\Infra\Container;
+use Tasker\Infra\Router;
 use Tasker\Domain\Entities\Factories\Project as ProjectFactory;
 use Tasker\Domain\Entities\Factories\Task as TaskFactory;
 use Tasker\Domain\Entities\Factories\Time as TimeFactory;
@@ -18,7 +18,7 @@ use Tasker\Domain\Services\Time as TimeService;
 $container = new Container();
 
 $container->share('database', function() {
-	return new PDO('mysql:host=localhost;dbname=tasker', 'root', 'root');
+	return new PDO('mysql:host=127.0.0.1;dbname=tasker', 'root', 'root');
 });
 
 

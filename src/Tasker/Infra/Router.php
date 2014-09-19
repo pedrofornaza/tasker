@@ -1,6 +1,6 @@
 <?php
 
-namespace Tasker\Application;
+namespace Tasker\Infra;
 
 class Router
 {
@@ -64,8 +64,8 @@ class Router
 	public function getParams($uriParts)
 	{
 		$params = array();
-		
-		$i = 0; 
+
+		$i = 0;
 		while($i < count($uriParts)) {
 			$next = $i + 1;
 			$params[$uriParts[$i]] = isset($uriParts[$next]) ? $uriParts[$next] : null;

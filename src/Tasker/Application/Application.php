@@ -3,7 +3,7 @@
 namespace Tasker\Application;
 
 use PDO;
-use Tasker\Application\Container;
+use Tasker\Infra\Container;
 
 class Application
 {
