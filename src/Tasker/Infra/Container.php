@@ -3,6 +3,7 @@
 namespace Tasker\Infra;
 
 use ArrayAccess;
+use Exception;
 use InvalidArgumentException;
 
 class Container implements ArrayAccess
@@ -49,5 +50,33 @@ class Container implements ArrayAccess
         }
 
         $this->shared[$offset] = $callable;
+    }
+
+    public function make($className)
+    {
+        if ( ! class_exists($className)) {
+            throw new Exception(sprintf("The namespace '%s' is not class", $className));
+        }
+
+        if ($this->offsetExists($className)) {
+            return $this->offsetGet($className);
+        }
+
+        return $this->resolveByReflection($className);
+    }
+
+    private function resolveByReflection($className)
+    {
+        $ref = new \ReflectionClass($className);
+        if ( ! $ref->isInstantiable()) {
+            throw new Exception(sprintf("The class '%s' is not instanciable", $className));
+        }
+
+        $constructor = $ref->getConstructor();
+        if ($constructor->getNumberOfParameters() != 0) {
+            throw new Exception(sprintf("The class '%s' has constructor parameters", $className));
+        }
+
+        return new $className;
     }
 }

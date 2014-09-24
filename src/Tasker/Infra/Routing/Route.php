@@ -1,6 +1,6 @@
 <?php
 
-namespace Tasker\Infra;
+namespace Tasker\Infra\Routing;
 
 class Route
 {
