@@ -47,7 +47,7 @@ class ProjectMapper
         $this->repository->update($data);
     }
 
-    public function get($id)
+    public function find($id)
     {
         $data = $this->repository->find($id);
         if (!$data) {
@@ -57,7 +57,7 @@ class ProjectMapper
         return $this->factory->newEntity($data);
     }
 
-    public function getAll()
+    public function findAll()
     {
         $data = $this->repository->findAll();
         return $this->factory->newCollection($data);

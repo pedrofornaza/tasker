@@ -20,8 +20,8 @@ class Projects
 
     public function getOne($id)
     {
-        $project = $this->projectService->get($id);
-        $tasks = $this->taskService->getByProject($id);
+        $project = $this->projectService->find($id);
+        $tasks = $this->taskService->findByProject($id);
 
         $viewParams = array(
             'project' => $project,
@@ -34,7 +34,7 @@ class Projects
 
     public function getAll()
     {
-        $projects = $this->projectService->getAll();
+        $projects = $this->projectService->findAll();
 
         $viewParams = array('projects' => $projects);
 

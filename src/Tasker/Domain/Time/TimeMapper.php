@@ -49,7 +49,7 @@ class TimeMapper
         $this->repository->update($data);
     }
 
-    public function get($id)
+    public function find($id)
     {
         $data = $this->repository->find($id);
         if (!$data) {
@@ -59,13 +59,13 @@ class TimeMapper
         return $this->factory->newEntity($data);
     }
 
-    public function getByTask($task)
+    public function findByTask($task)
     {
         $data = $this->repository->findByTask($task);
         return $this->factory->newCollection($data);
     }
 
-    public function getAll()
+    public function findAll()
     {
         $data = $this->repository->findAll($task);
         return $this->factory->newCollection($data);

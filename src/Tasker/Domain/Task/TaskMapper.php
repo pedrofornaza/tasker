@@ -51,7 +51,7 @@ class TaskMapper
         $this->repository->update($data);
     }
 
-    public function get($id)
+    public function find($id)
     {
         $data = $this->repository->find($id);
         if (!$data) {
@@ -61,13 +61,13 @@ class TaskMapper
         return $this->factory->newEntity($data);
     }
 
-    public function getByProject($project)
+    public function findByProject($project)
     {
         $data = $this->repository->findByProject($project);
         return $this->factory->newCollection($data);
     }
 
-    public function getAll()
+    public function findAll()
     {
         $data = $this->repository->findAll();
         return $this->factory->newCollection($data);

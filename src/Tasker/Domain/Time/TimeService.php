@@ -13,9 +13,9 @@ class TimeService
         $this->mapper = $mapper;
     }
 
-    public function getByTask($task)
+    public function findByTask($task)
     {
-        return $this->mapper->getByTask($task);
+        return $this->mapper->findByTask($task);
     }
 
     public function save($data)
@@ -26,7 +26,7 @@ class TimeService
         $entity->setStart($datetime->format('Y-m-d h:i:s'));
 
         if ($data['type'] == 'end') {
-            $entity = $this->mapper->get($data['id']);
+            $entity = $this->mapper->find($data['id']);
             $entity->setEnd($datetime->format('Y-m-d h:i:s'));
         }
 

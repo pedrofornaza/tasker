@@ -11,14 +11,14 @@ class TaskService
         $this->mapper = $mapper;
     }
 
-    public function get($id)
+    public function find($id)
     {
-        return $this->mapper->get($id);
+        return $this->mapper->find($id);
     }
 
-    public function getByProject($project)
+    public function findByProject($project)
     {
-        return $this->mapper->getByProject($project);
+        return $this->mapper->findByProject($project);
     }
 
     public function save($data)
@@ -27,7 +27,7 @@ class TaskService
         $entity->setProject($data['project']);
 
         if ($data['id'] != null) {
-            $entity = $this->mapper->get($data['id']);
+            $entity = $this->mapper->find($data['id']);
         }
 
         $entity->setName($data['name'])

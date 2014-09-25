@@ -11,21 +11,21 @@ class ProjectService
         $this->mapper = $mapper;
     }
 
-    public function get($id)
+    public function find($id)
     {
-        return $this->mapper->get($id);
+        return $this->mapper->find($id);
     }
 
-    public function getAll()
+    public function findAll()
     {
-        return $this->mapper->getAll();
+        return $this->mapper->findAll();
     }
 
     public function save($data)
     {
         $entity = new ProjectEntity();
         if ($data['id'] != null) {
-            $entity = $this->mapper->get($data['id']);
+            $entity = $this->mapper->find($data['id']);
         }
 
         $entity->setName($data['name'])

@@ -25,8 +25,8 @@ class Tasks
         }
 
         try {
-            $task = $this->taskService->get($id);
-            $times = $this->timeService->getByTask($id);
+            $task = $this->taskService->find($id);
+            $times = $this->timeService->findByTask($id);
 
             $viewName = '../templates/tasks/detail.php';
             $viewParams = array(
