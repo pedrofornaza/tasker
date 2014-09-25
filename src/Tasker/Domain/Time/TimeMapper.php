@@ -25,7 +25,7 @@ class TimeMapper
         }
     }
 
-    public function insert(TimeEntity $time)
+    protected function insert(TimeEntity $time)
     {
         $data = array(
             'task'  => $time->getTask(),
@@ -37,7 +37,7 @@ class TimeMapper
         $time->setId($id);
     }
 
-    public function update(TimeEntity $time)
+    protected function update(TimeEntity $time)
     {
         $data = array(
             'id'  => $time->getId(),

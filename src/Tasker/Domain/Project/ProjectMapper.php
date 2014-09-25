@@ -25,7 +25,7 @@ class ProjectMapper
         }
     }
 
-    public function insert(ProjectEntity $project)
+    protected function insert(ProjectEntity $project)
     {
         $data = array(
             'name'        => $project->getName(),
@@ -36,7 +36,7 @@ class ProjectMapper
         $project->setId($id);
     }
 
-    public function update(ProjectEntity $project)
+    protected function update(ProjectEntity $project)
     {
         $data = array(
             'id'          => $project->getId(),

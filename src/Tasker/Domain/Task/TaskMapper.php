@@ -25,7 +25,7 @@ class TaskMapper
         }
     }
 
-    public function insert(TaskEntity $task)
+    protected function insert(TaskEntity $task)
     {
         $data = array(
             'project'     => $task->getProject(),
@@ -38,7 +38,7 @@ class TaskMapper
         $task->setId($id);
     }
 
-    public function update(TaskEntity $task)
+    protected function update(TaskEntity $task)
     {
         $data = array(
             'id'          => $task->getId(),
