@@ -2,6 +2,8 @@
 
 namespace Tasker\Infra\Routing;
 
+use Exception;
+
 class Router
 {
 	protected $dispatcher;
