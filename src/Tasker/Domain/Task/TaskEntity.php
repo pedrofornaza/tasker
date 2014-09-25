@@ -1,10 +1,10 @@
 <?php
 
-namespace Tasker\Domain\Entities;
+namespace Tasker\Domain\Task;
 
 use InvalidArgumentException;
 
-class Task
+class TaskEntity
 {
     protected $id;
     protected $project;
@@ -19,7 +19,7 @@ class Task
 
     public function setId($id)
     {
-        if (!is_int($id) && 
+        if (!is_int($id) &&
             !is_numeric($id)
         ) {
             throw new InvalidArgumentException('The task id must be integer.');

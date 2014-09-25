@@ -1,6 +1,6 @@
 <?php
 
-namespace Tasker\Domain\Entities\Factories;
+namespace Tasker\Domain;
 
 interface FactoryInterface
 {

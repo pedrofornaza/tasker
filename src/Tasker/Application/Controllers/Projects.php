@@ -3,8 +3,8 @@
 namespace Tasker\Application\Controllers;
 
 use Exception;
-use Tasker\Domain\Services\Project as ProjectService;
-use Tasker\Domain\Services\Task as TaskService;
+use Tasker\Domain\Project\ProjectService;
+use Tasker\Domain\Task\TaskService;
 use Tasker\Infra\View;
 
 class Projects

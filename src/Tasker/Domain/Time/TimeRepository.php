@@ -1,11 +1,11 @@
 <?php
 
-namespace Tasker\Domain\Repositories;
+namespace Tasker\Domain\Time;
 
 use Exception;
 use PDO;
 
-class Time
+class TimeRepository
 {
     protected $db;
 
@@ -47,7 +47,7 @@ class Time
         $sql = 'SELECT * FROM times WHERE id = :id';
         $stm = $this->db->prepare($sql);
         $stm->bindValue(':id', $id);
-        
+
         if (!$stm->execute()) {
             throw new Exception("Something went wrong selecting the '{$id}' registry.");
         }
@@ -72,7 +72,7 @@ class Time
     {
         $sql = 'SELECT * FROM times';
         $stm = $this->db->prepare($sql);
-        
+
         if (!$stm->execute()) {
             throw new Exception("Something went wrong selecting all the times registries.");
         }

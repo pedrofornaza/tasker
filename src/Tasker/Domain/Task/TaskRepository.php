@@ -1,11 +1,11 @@
 <?php
 
-namespace Tasker\Domain\Repositories;
+namespace Tasker\Domain\Task;
 
 use Exception;
 use PDO;
 
-class Task
+class TaskRepository
 {
     protected $db;
 
@@ -64,7 +64,7 @@ class Task
         $sql = 'SELECT * FROM tasks WHERE project = :project';
         $stm = $this->db->prepare($sql);
         $stm->bindValue(':project', $project);
-        
+
         if (!$stm->execute()) {
             throw new Exception("Something went wrong selecting the project '{$project}' tasks.");
         }

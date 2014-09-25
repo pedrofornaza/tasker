@@ -1,14 +1,14 @@
 <?php
 
-namespace Tasker\Domain\Entities\Factories;
+namespace Tasker\Domain\Task;
 
-use Tasker\Domain\Entities\Task as Entity;
+use Tasker\Domain\FactoryInterface;
 
-class Task implements FactoryInterface
+class TaskFactory implements FactoryInterface
 {
     public function build($data)
     {
-        $entity = new Entity;
+        $entity = new TaskEntity;
         $entity->setId($data['id'])
                ->setProject($data['project'])
                ->setName($data['name'])

@@ -3,7 +3,7 @@
 namespace Tasker\Application\Controllers;
 
 use Exception;
-use Tasker\Domain\Services\Time as TimeService;
+use Tasker\Domain\Time\TimeService;
 use Tasker\Infra\View;
 
 class Times

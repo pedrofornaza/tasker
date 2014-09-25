@@ -1,24 +1,21 @@
 <?php
 
-namespace Tasker\Domain\Mappers;
+namespace Tasker\Domain\Time;
 
 use Exception;
-use Tasker\Domain\Entities\Time as Entity;
-use Tasker\Domain\Entities\Factories\Time as Factory;
-use Tasker\Domain\Repositories\Time as Repository;
 
-class Time
+class TimeMapper
 {
     protected $repository;
     protected $factory;
 
-    public function __construct(Repository $repository, Factory $factory)
+    public function __construct(TimeRepository $repository, TimeFactory $factory)
     {
         $this->repository = $repository;
         $this->factory = $factory;
     }
 
-    public function save(Entity $time)
+    public function save(TimeEntity $time)
     {
         if ($time->getId() !== null) {
             $this->update($time);
@@ -28,7 +25,7 @@ class Time
         }
     }
 
-    public function insert(Entity $time)
+    public function insert(TimeEntity $time)
     {
         $data = array(
             'task' => $time->getTask(),
@@ -39,7 +36,7 @@ class Time
         $time->setId($id);
     }
 
-    public function update(Entity $time)
+    public function update(TimeEntity $time)
     {
         $data = array(
             'id'  => $time->getId(),

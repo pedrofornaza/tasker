@@ -1,24 +1,21 @@
 <?php
 
-namespace Tasker\Domain\Mappers;
+namespace Tasker\Domain\Project;
 
 use Exception;
-use Tasker\Domain\Entities\Project as Entity;
-use Tasker\Domain\Entities\Factories\Project as Factory;
-use Tasker\Domain\Repositories\Project as Repository;
 
-class Project
+class ProjectMapper
 {
     protected $repository;
     protected $factory;
 
-    public function __construct(Repository $repository, Factory $factory)
+    public function __construct(ProjectRepository $repository, ProjectFactory $factory)
     {
         $this->repository = $repository;
         $this->factory = $factory;
     }
 
-    public function save(Entity $project)
+    public function save(ProjectEntity $project)
     {
         if ($project->getId() !== null) {
             $this->update($project);
@@ -28,7 +25,7 @@ class Project
         }
     }
 
-    public function insert(Entity $project)
+    public function insert(ProjectEntity $project)
     {
         $data = array(
             'name'        => $project->getName(),
@@ -39,7 +36,7 @@ class Project
         $project->setId($id);
     }
 
-    public function update(Entity $project)
+    public function update(ProjectEntity $project)
     {
         $data = array(
             'name'        => $project->getName(),

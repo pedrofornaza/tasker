@@ -1,11 +1,11 @@
 <?php
 
-namespace Tasker\Domain\Repositories;
+namespace Tasker\Domain\Project;
 
 use PDO;
 use Exception;
 
-class Project
+class ProjectRepository
 {
     protected $db;
 

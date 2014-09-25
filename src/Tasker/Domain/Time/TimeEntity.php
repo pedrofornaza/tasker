@@ -1,11 +1,11 @@
 <?php
 
-namespace Tasker\Domain\Entities;
+namespace Tasker\Domain\Time;
 
 use DateTime;
 use InvalidArgumentException;
 
-class Time
+class TimeEntity
 {
     protected $id;
     protected $task;
@@ -31,7 +31,7 @@ class Time
 
     public function setTask($task)
     {
-        if (!is_int($task) && 
+        if (!is_int($task) &&
             !is_numeric($task)
         ) {
             throw new InvalidArgumentException('The time task must be integer.');

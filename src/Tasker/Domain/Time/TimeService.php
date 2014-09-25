@@ -1,16 +1,14 @@
 <?php
 
-namespace Tasker\Domain\Services;
+namespace Tasker\Domain\Time;
 
 use DateTime;
-use Tasker\Domain\Entities\Time as Entity;
-use Tasker\Domain\Mappers\Time as Mapper;
 
-class Time
+class TimeService
 {
     protected $mapper;
 
-    public function __construct(Mapper $mapper)
+    public function __construct(TimeMapper $mapper)
     {
         $this->mapper = $mapper;
     }
@@ -24,7 +22,7 @@ class Time
     {
         $datetime = new DateTime();
 
-        $entity = new Entity();
+        $entity = new TimeEntity();
         $entity->setStart($datetime->format('Y-m-d h:i:s'));
 
         if ($data['type'] == 'end') {

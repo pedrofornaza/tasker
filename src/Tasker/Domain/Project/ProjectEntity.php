@@ -1,10 +1,10 @@
 <?php
 
-namespace Tasker\Domain\Entities;
+namespace Tasker\Domain\Project;
 
 use InvalidArgumentException;
 
-class Project
+class ProjectEntity
 {
     protected $id;
     protected $name;

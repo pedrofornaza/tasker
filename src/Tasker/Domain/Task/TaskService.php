@@ -1,15 +1,12 @@
 <?php
 
-namespace Tasker\Domain\Services;
+namespace Tasker\Domain\Task;
 
-use Tasker\Domain\Entities\Task as Entity;
-use Tasker\Domain\Mappers\Task as Mapper;
-
-class Task
+class TaskService
 {
     protected $mapper;
 
-    public function __construct(Mapper $mapper)
+    public function __construct(TaskMapper $mapper)
     {
         $this->mapper = $mapper;
     }
@@ -26,7 +23,7 @@ class Task
 
     public function save($data)
     {
-        $entity = new Entity();
+        $entity = new TaskEntity();
         $entity->setProject($data['project']);
 
         if ($data['id'] != null) {
