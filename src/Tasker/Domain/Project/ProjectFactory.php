@@ -2,16 +2,19 @@
 
 namespace Tasker\Domain\Project;
 
-use Tasker\Domain\FactoryInterface;
+use Tasker\Domain\AbstractFactory;
 
-class ProjectFactory implements FactoryInterface
+class ProjectFactory extends AbstractFactory
 {
-    public function build($data)
+    public function newEntity(array $data)
     {
         $entity = new ProjectEntity;
-        $entity->setId($data['id'])
-               ->setName($data['name'])
+        $entity->setName($data['name'])
                ->setDescription($data['description']);
+
+        if (isset($data['id'])) {
+            $entity->setId($data['id']);
+        }
 
         return $entity;
     }

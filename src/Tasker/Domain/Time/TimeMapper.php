@@ -53,30 +53,18 @@ class TimeMapper
             throw new Exception("The time '{$id}' could not be found");
         }
 
-        return $this->factory->build($data);
+        return $this->factory->newEntity($data);
     }
 
     public function getByTask($task)
     {
         $data = $this->repository->getByTask($task);
-
-        $times = array();
-        foreach ($data as $row) {
-            $times[] = $this->factory->build($row);
-        }
-
-        return $times;
+        return $this->factory->newCollection($data);
     }
 
     public function getAll()
     {
         $data = $this->repository->getAll($task);
-
-        $times = array();
-        foreach ($data as $row) {
-            $times[] = $this->factory->build($row);
-        }
-
-        return $times;
+        return $this->factory->newCollection($data);
     }
 }

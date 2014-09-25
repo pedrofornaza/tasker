@@ -54,18 +54,12 @@ class ProjectMapper
             throw new Exception("The project '{$id}' could not be found.");
         }
 
-        return $this->factory->build($data);
+        return $this->factory->newEntity($data);
     }
 
     public function getAll()
     {
         $data = $this->repository->getAll();
-
-        $projects = array();
-        foreach ($data as $row) {
-            $projects[] = $this->factory->build($row);
-        }
-
-        return $projects;
+        return $this->factory->newCollection($data);
     }
 }

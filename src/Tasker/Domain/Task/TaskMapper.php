@@ -57,30 +57,18 @@ class TaskMapper
             throw new Exception("The task '{$id}' could not be found.");
         }
 
-        return $this->factory->build($data);
+        return $this->factory->newEntity($data);
     }
 
     public function getByProject($project)
     {
         $data = $this->repository->getByProject($project);
-
-        $tasks = array();
-        foreach ($data as $row) {
-            $tasks[] = $this->factory->build($row);
-        }
-
-        return $tasks;
+        return $this->factory->newCollection($data);
     }
 
     public function getAll()
     {
         $data = $this->repository->getAll();
-
-        $tasks = array();
-        foreach ($data as $row) {
-            $tasks[] = $this->factory->build($row);
-        }
-
-        return $tasks;
+        return $this->factory->newCollection($data);
     }
 }

@@ -2,17 +2,20 @@
 
 namespace Tasker\Domain\Time;
 
-use Tasker\Domain\FactoryInterface;
+use Tasker\Domain\AbstractFactory;
 
-class TimeFactory implements FactoryInterface
+class TimeFactory extends AbstractFactory
 {
-    public function build($data)
+    public function newEntity(array $data)
     {
         $entity = new TimeEntity;
-        $entity->setId($data['id'])
-               ->setTask($data['task'])
+        $entity->setTask($data['task'])
                ->setStart($data['start'])
                ->setEnd($data['end']);
+
+        if (isset($data['id'])) {
+            $entity->setId($data['id']);
+        }
 
         return $entity;
     }
