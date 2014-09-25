@@ -78,7 +78,9 @@ $container->share('Tasker\Domain\Task\TaskService', function($container) {
 
 
 $container->share('Tasker\Application\Controllers\Times', function($container) {
-    return new TimesController($container);
+    $timeService = $container->get('Tasker\Domain\Time\TimeService');
+
+    return new TimesController($timeService);
 });
 
 $container->share('Tasker\Domain\Time\TimeMapper', function($container) {
