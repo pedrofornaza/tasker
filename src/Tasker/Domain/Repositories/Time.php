@@ -7,19 +7,19 @@ use PDO;
 
 class Time
 {
-	protected $db;
+    protected $db;
 
-	public function __construct(PDO $db)
-	{
-		$this->db = $db;
-	}
-
-	public function insert($data)
+    public function __construct(PDO $db)
     {
-    	$sql = 'INSERT INTO times (task, start) VALUES (:task, :start)';
-    	$stm = $this->db->prepare($sql);
+        $this->db = $db;
+    }
 
-    	$stm->bindValue(':task',  $data['task']);
+    public function insert($data)
+    {
+        $sql = 'INSERT INTO times (task, start) VALUES (:task, :start)';
+        $stm = $this->db->prepare($sql);
+
+        $stm->bindValue(':task',  $data['task']);
         $stm->bindValue(':start', $data['start']);
 
         if (!$stm->execute()) {
@@ -34,26 +34,26 @@ class Time
         $sql = 'UPDATE times set end = :end WHERE id = :id';
         $stm = $this->db->prepare($sql);
 
-    	$stm->bindValue(':end', $data['end']);
-    	$stm->bindValue(':id',  $data['id']);
+        $stm->bindValue(':end', $data['end']);
+        $stm->bindValue(':id',  $data['id']);
 
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong updating the time.");
-    	}
+        if (!$stm->execute()) {
+            throw new Exception("Something went wrong updating the time.");
+        }
     }
 
-	public function get($id)
-	{
-		$sql = 'SELECT * FROM times WHERE id = :id';
-		$stm = $this->db->prepare($sql);
-		$stm->bindValue(':id', $id);
+    public function get($id)
+    {
+        $sql = 'SELECT * FROM times WHERE id = :id';
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(':id', $id);
         
         if (!$stm->execute()) {
             throw new Exception("Something went wrong selecting the '{$id}' registry.");
         }
 
         return $stm->fetch();
-	}
+    }
 
     public function getByTask($task)
     {

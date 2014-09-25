@@ -4,24 +4,24 @@ namespace Tasker\Infra;
 
 class View
 {
-	public function __construct($path = '')
-	{
-		$path = realpath($path);
-		if (!file_exists($path)) {
-			throw new \InvalidArgumentException("The View '{$path}' does not exists.");
-		}
+    public function __construct($path = '')
+    {
+        $path = realpath($path);
+        if (!file_exists($path)) {
+            throw new \InvalidArgumentException("The View '{$path}' does not exists.");
+        }
 
-		$this->path = $path;
-	}
+        $this->path = $path;
+    }
 
-	public function render($params = array())
-	{
-		ob_start();
-		include $this->path;
+    public function render($params = array())
+    {
+        ob_start();
+        include $this->path;
 
-		$content = ob_get_contents();
-		ob_end_clean();
+        $content = ob_get_contents();
+        ob_end_clean();
 
-		return $content;
-	}
+        return $content;
+    }
 }

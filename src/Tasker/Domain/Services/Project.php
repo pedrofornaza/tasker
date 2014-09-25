@@ -7,26 +7,26 @@ use Tasker\Domain\Mappers\Project as Mapper;
 
 class Project
 {
-	protected $mapper;
+    protected $mapper;
 
-	public function __construct(Mapper $mapper)
-	{
-		$this->mapper = $mapper;
-	}
+    public function __construct(Mapper $mapper)
+    {
+        $this->mapper = $mapper;
+    }
 
-	public function get($id)
-	{
-		return $this->mapper->get($id);
-	}
+    public function get($id)
+    {
+        return $this->mapper->get($id);
+    }
 
-	public function getAll()
-	{
-		return $this->mapper->getAll();
-	}
+    public function getAll()
+    {
+        return $this->mapper->getAll();
+    }
 
-	public function save($data)
-	{
-		$entity = new Entity();
+    public function save($data)
+    {
+        $entity = new Entity();
         if ($data['id'] != null) {
             $entity = $this->mapper->get($data['id']);
         }
@@ -37,5 +37,5 @@ class Project
         $this->mapper->save($entity);
 
         return $entity->getId();
-	}
+    }
 }

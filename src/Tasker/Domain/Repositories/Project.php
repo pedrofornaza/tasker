@@ -7,55 +7,55 @@ use Exception;
 
 class Project
 {
-	protected $db;
+    protected $db;
 
-	public function __construct(PDO $db)
-	{
-		$this->db = $db;
-	}
+    public function __construct(PDO $db)
+    {
+        $this->db = $db;
+    }
 
     public function insert($data)
     {
-    	$sql = 'INSERT INTO projects (name, description) VALUES (:name, :description)';
-    	$stm = $this->db->prepare($sql);
+        $sql = 'INSERT INTO projects (name, description) VALUES (:name, :description)';
+        $stm = $this->db->prepare($sql);
 
-    	$stm->bindValue(':name',        $data['name']);
-    	$stm->bindValue(':description', $data['description']);
+        $stm->bindValue(':name',        $data['name']);
+        $stm->bindValue(':description', $data['description']);
 
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong inserting the project.");
-    	}
+        if (!$stm->execute()) {
+            throw new Exception("Something went wrong inserting the project.");
+        }
 
-    	return $this->db->lastInsertId();
+        return $this->db->lastInsertId();
     }
 
     public function update($data)
     {
-    	$sql = 'UPDATE projects set name = :name, description = :description WHERE id = :id';
-    	$stm = $this->db->prepare($sql);
+        $sql = 'UPDATE projects set name = :name, description = :description WHERE id = :id';
+        $stm = $this->db->prepare($sql);
 
-    	$stm->bindValue(':name',        $data['name']);
-    	$stm->bindValue(':description', $data['description']);
-    	$stm->bindValue(':id',          $data['id']);
+        $stm->bindValue(':name',        $data['name']);
+        $stm->bindValue(':description', $data['description']);
+        $stm->bindValue(':id',          $data['id']);
 
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong updating the project.");
-    	}
+        if (!$stm->execute()) {
+            throw new Exception("Something went wrong updating the project.");
+        }
     }
 
-	public function get($id)
-	{
-		$sql = 'SELECT * FROM projects WHERE id = :id';
-		$stm = $this->db->prepare($sql);
+    public function get($id)
+    {
+        $sql = 'SELECT * FROM projects WHERE id = :id';
+        $stm = $this->db->prepare($sql);
 
         $stm->bindValue(':id', $id);
 
-		if (!$stm->execute()) {
-			throw new Exception('The project cannot be found.');
-		}
+        if (!$stm->execute()) {
+            throw new Exception('The project cannot be found.');
+        }
 
-		return $stm->fetch();
-	}
+        return $stm->fetch();
+    }
 
     public function getAll()
     {

@@ -10,13 +10,13 @@ use Tasker\Domain\Repositories\Project as Repository;
 class Project
 {
     protected $repository;
-	protected $factory;
+    protected $factory;
 
-	public function __construct(Repository $repository, Factory $factory)
-	{
-		$this->repository = $repository;
+    public function __construct(Repository $repository, Factory $factory)
+    {
+        $this->repository = $repository;
         $this->factory = $factory;
-	}
+    }
 
     public function save(Entity $project)
     {
@@ -35,8 +35,8 @@ class Project
             'description' => $project->getDescription(),
         );
 
-    	$id = $this->repository->insert($data);
-    	$project->setId($id);
+        $id = $this->repository->insert($data);
+        $project->setId($id);
     }
 
     public function update(Entity $project)
@@ -50,15 +50,15 @@ class Project
         $this->repository->update($data);
     }
 
-	public function get($id)
-	{
-		$data = $this->repository->get($id);
+    public function get($id)
+    {
+        $data = $this->repository->get($id);
         if (!$data) {
             throw new Exception("The project '{$id}' could not be found.");
         }
 
-		return $this->factory->build($data);
-	}
+        return $this->factory->build($data);
+    }
 
     public function getAll()
     {

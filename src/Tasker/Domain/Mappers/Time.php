@@ -10,13 +10,13 @@ use Tasker\Domain\Repositories\Time as Repository;
 class Time
 {
     protected $repository;
-	protected $factory;
+    protected $factory;
 
-	public function __construct(Repository $repository, Factory $factory)
-	{
+    public function __construct(Repository $repository, Factory $factory)
+    {
         $this->repository = $repository;
-		$this->factory = $factory;
-	}
+        $this->factory = $factory;
+    }
 
     public function save(Entity $time)
     {
@@ -28,9 +28,9 @@ class Time
         }
     }
 
-	public function insert(Entity $time)
+    public function insert(Entity $time)
     {
-    	$data = array(
+        $data = array(
             'task' => $time->getTask(),
             'start' => $time->getStart(),
         );
@@ -46,18 +46,18 @@ class Time
             'end' => $time->getEnd(),
         );
 
-    	$this->repository->update($data);
+        $this->repository->update($data);
     }
 
-	public function get($id)
-	{
-		$data = $this->repository->get($id);
+    public function get($id)
+    {
+        $data = $this->repository->get($id);
         if (!$data) {
             throw new Exception("The time '{$id}' could not be found");
         }
 
         return $this->factory->build($data);
-	}
+    }
 
     public function getByTask($task)
     {

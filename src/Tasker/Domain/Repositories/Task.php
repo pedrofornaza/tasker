@@ -7,24 +7,24 @@ use PDO;
 
 class Task
 {
-	protected $db;
+    protected $db;
 
-	public function __construct(PDO $db)
-	{
-		$this->db = $db;
-	}
-
-	public function insert($data)
+    public function __construct(PDO $db)
     {
-    	$sql = 'INSERT INTO tasks (project, name, description, status) VALUES (:project, :name, :description, :status)';
-    	$stm = $this->db->prepare($sql);
+        $this->db = $db;
+    }
+
+    public function insert($data)
+    {
+        $sql = 'INSERT INTO tasks (project, name, description, status) VALUES (:project, :name, :description, :status)';
+        $stm = $this->db->prepare($sql);
 
         $stm->bindValue(':project',     $data['project']);
         $stm->bindValue(':name',        $data['name']);
-    	$stm->bindValue(':description', $data['description']);
-    	$stm->bindValue(':status',      $data['status']);
+        $stm->bindValue(':description', $data['description']);
+        $stm->bindValue(':status',      $data['status']);
 
-    	if (!$stm->execute()) {
+        if (!$stm->execute()) {
             throw new Exception("Something went wrong inserting the task.");
         }
 
@@ -33,30 +33,30 @@ class Task
 
     public function update($data)
     {
-    	$sql = 'UPDATE tasks set name = :name, description = :description, status = :status WHERE id = :id';
-    	$stm = $this->db->prepare($sql);
+        $sql = 'UPDATE tasks set name = :name, description = :description, status = :status WHERE id = :id';
+        $stm = $this->db->prepare($sql);
 
         $stm->bindValue(':name',        $data['name']);
         $stm->bindValue(':description', $data['description']);
         $stm->bindValue(':status',      $data['status']);
         $stm->bindValue(':id',          $data['id']);
 
-    	if (!$stm->execute()) {
-    		throw new Exception("Something went wrong updating the task.");
-    	}
+        if (!$stm->execute()) {
+            throw new Exception("Something went wrong updating the task.");
+        }
     }
 
-	public function get($id)
-	{
-		$sql = 'SELECT * FROM tasks WHERE id = :id';
-		$stm = $this->db->prepare($sql);
-		$stm->bindValue(':id', $id);
+    public function get($id)
+    {
+        $sql = 'SELECT * FROM tasks WHERE id = :id';
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(':id', $id);
 
-		if (!$stm->execute()) {
-			throw new Exception("Something went wrong selecting the task '{$id}'.");
-		}
+        if (!$stm->execute()) {
+            throw new Exception("Something went wrong selecting the task '{$id}'.");
+        }
 
-		return $stm->fetch();
+        return $stm->fetch();
     }
 
     public function getByProject($project)

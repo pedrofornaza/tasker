@@ -7,21 +7,21 @@ use Tasker\Infra\Container;
 
 class Application
 {
-	protected $container;
+    protected $container;
 
-	public function __construct(Container $container)
-	{
-		$this->container = $container;
-	}
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
-	public function run($request)
-	{
-		$uri = trim($request['REQUEST_URI'], '/');
-		$method = strtolower($request['REQUEST_METHOD']);
+    public function run($request)
+    {
+        $uri = trim($request['REQUEST_URI'], '/');
+        $method = strtolower($request['REQUEST_METHOD']);
 
-		$router = $this->container->get('Tasker\Infra\Routing\Router');
-		$response = $router->handle($uri, $method);
+        $router = $this->container->get('Tasker\Infra\Routing\Router');
+        $response = $router->handle($uri, $method);
 
-		echo $response;
-	}
+        echo $response;
+    }
 }

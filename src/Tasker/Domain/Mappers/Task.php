@@ -12,11 +12,11 @@ class Task
     protected $repository;
     protected $factory;
 
-	public function __construct(Repository $repository, Factory $factory)
-	{
-		$this->repository = $repository;
+    public function __construct(Repository $repository, Factory $factory)
+    {
+        $this->repository = $repository;
         $this->factory = $factory;
-	}
+    }
 
     public function save(Entity $task)
     {
@@ -28,17 +28,17 @@ class Task
         }
     }
 
-	public function insert(Entity $task)
+    public function insert(Entity $task)
     {
         $data = array(
-        	'project'     => $task->getProject(),
+            'project'     => $task->getProject(),
             'name'        => $task->getName(),
-        	'description' => $task->getDescription(),
-        	'status'      => $task->getStatus(),
+            'description' => $task->getDescription(),
+            'status'      => $task->getStatus(),
         );
 
-    	$id = $this->repository->insert($data);
-    	$task->setId($id);
+        $id = $this->repository->insert($data);
+        $task->setId($id);
     }
 
     public function update(Entity $task)
@@ -53,15 +53,15 @@ class Task
         $this->repository->update($data);
     }
 
-	public function get($id)
-	{
-		$data = $this->repository->get($id);
+    public function get($id)
+    {
+        $data = $this->repository->get($id);
         if (!$data) {
             throw new Exception("The task '{$id}' could not be found.");
         }
 
-		return $this->factory->build($data);
-	}
+        return $this->factory->build($data);
+    }
 
     public function getByProject($project)
     {

@@ -8,21 +8,21 @@ use Tasker\Domain\Mappers\Time as Mapper;
 
 class Time
 {
-	protected $mapper;
+    protected $mapper;
 
-	public function __construct(Mapper $mapper)
-	{
-		$this->mapper = $mapper;
-	}
+    public function __construct(Mapper $mapper)
+    {
+        $this->mapper = $mapper;
+    }
 
-	public function getByTask($task)
-	{
-		return $this->mapper->getByTask($task);
-	}
+    public function getByTask($task)
+    {
+        return $this->mapper->getByTask($task);
+    }
 
-	public function save($data)
-	{
-		$datetime = new DateTime();
+    public function save($data)
+    {
+        $datetime = new DateTime();
 
         $entity = new Entity();
         $entity->setStart($datetime->format('Y-m-d h:i:s'));
@@ -37,5 +37,5 @@ class Time
         $this->mapper->save($entity);
 
         return $entity->getId();
-	}
+    }
 }
