@@ -3,40 +3,25 @@
 namespace Tasker\Application\Controllers;
 
 use Exception;
-use Tasker\Infra\Container;
+use Tasker\Domain\Services\Project as ProjectService;
+use Tasker\Domain\Services\Task as TaskService;
 use Tasker\Infra\View;
 
 class Projects
 {
-    protected $container;
+    protected $projectService;
+    protected $taskService;
 
-    public function __construct(Container $container)
+    public function __construct(ProjectService $projectService, TaskService $taskService)
     {
-        $this->container = $container;
+        $this->projectService = $projectService;
+        $this->taskService = $taskService;
     }
 
-    public function get($id = null)
+    public function getOne($id)
     {
-        $method = 'getAll';
-        if ($id != null) {
-            $method = 'getOne';
-        }
-
-        try {
-            return $this->$method($id);
-
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    protected function getOne($id)
-    {
-        $projectService = $this->container['project.service'];
-        $project = $projectService->get($id);
-
-        $taskService = $this->container['task.service'];
-        $tasks = $taskService->getByProject($id);
+        $project = $this->projectService->get($id);
+        $tasks = $this->taskService->getByProject($id);
 
         $viewParams = array(
             'project' => $project,
@@ -47,10 +32,9 @@ class Projects
         return $view->render($viewParams);
     }
 
-    protected function getAll()
+    public function getAll()
     {
-        $projectService = $this->container['project.service'];
-        $projects = $projectService->getAll();
+        $projects = $this->projectService->getAll();
 
         $viewParams = array('projects' => $projects);
 
@@ -61,10 +45,8 @@ class Projects
     public function post($id = null)
     {
         try {
-            $projectService = $this->container['project.service'];
-
             $data = array_merge($_POST['project'], array('id' => $id));
-            $id = $projectService->save($data);
+            $id = $this->projectService->save($data);
 
             header('Location: /projects/'.$id);
 

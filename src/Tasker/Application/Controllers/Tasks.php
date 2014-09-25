@@ -3,30 +3,30 @@
 namespace Tasker\Application\Controllers;
 
 use Exception;
-use Tasker\Infra\Container;
+use Tasker\Domain\Services\Task as TaskService;
+use Tasker\Domain\Services\Time as TimeService;
 use Tasker\Infra\View;
 
 class Tasks
 {
-    protected $container;
+    protected $taskService;
+    protected $timeService;
 
-    public function __construct(Container $container)
+    public function __construct(TaskService $taskService, TimeService $timeService)
     {
-        $this->container = $container;
+        $this->taskService = $taskService;
+        $this->timeService = $timeService;
     }
 
-    public function get($id = null)
+    public function getOne($id = null)
     {
         if ($id == null) {
             return 'You should specify a Task to search.';
         }
 
         try {
-            $taskService = $this->container['task.service'];
-            $task = $taskService->get($id);
-
-            $timeService = $this->container['time.service'];
-            $times = $timeService->getByTask($id);
+            $task = $this->taskService->get($id);
+            $times = $this->timeService->getByTask($id);
 
             $viewName = '../templates/tasks/detail.php';
             $viewParams = array(
@@ -45,10 +45,8 @@ class Tasks
     public function post($id = null)
     {
         try {
-            $taskService = $this->container['task.service'];
-
             $data = array_merge($_POST['task'], array('id' => $id));
-            $id = $taskService->save($data);
+            $id = $this->taskService->save($data);
 
             header('Location: /tasks/'.$id);
 

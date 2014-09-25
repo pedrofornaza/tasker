@@ -19,7 +19,7 @@ class Application
 		$uri = trim($request['REQUEST_URI'], '/');
 		$method = strtolower($request['REQUEST_METHOD']);
 
-		$router = $this->container['router'];
+		$router = $this->container->get('Tasker\Infra\Routing\Router');
 		$response = $router->handle($uri, $method);
 
 		echo $response;

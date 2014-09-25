@@ -3,30 +3,23 @@
 namespace Tasker\Application\Controllers;
 
 use Exception;
-use Tasker\Infra\Container;
+use Tasker\Domain\Services\Time as TimeService;
 use Tasker\Infra\View;
 
 class Times
 {
-    protected $container;
+    protected $timeService;
 
-    public function __construct(Container $container)
+    public function __construct(TimeService $timeService)
     {
-        $this->container = $container;
-    }
-
-    public function get($id = null)
-    {
-        return 'You cannot access times directly.';
+        $this->timeService = $timeService;
     }
 
     public function post($id = null)
     {
         try {
-            $timeService = $this->container['time.service'];
-
             $data = array_merge($_POST['time'], array('id' => $id));
-            $timeService->save($data);
+            $this->timeService->save($data);
 
             header('Location: /tasks/'.$data['task']);
 

@@ -2,21 +2,20 @@
 
 namespace Tasker\Infra;
 
-use ArrayAccess;
 use Exception;
 use InvalidArgumentException;
 
-class Container implements ArrayAccess
+class Container
 {
     protected $data;
     protected $shared;
 
-    public function offsetExists($offset)
+    public function exists($offset)
     {
         return isset($this->data[$offset]) || isset($this->shared[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function get($offset)
     {
         if (!isset($this->data[$offset]) &&
              isset($this->shared[$offset])
@@ -27,13 +26,13 @@ class Container implements ArrayAccess
         return isset($this->data[$offset]) ? $this->data[$offset] : null;
     }
 
-    public function offsetSet($offset, $value)
+    public function set($offset, $value)
     {
         $this->data[$offset] = $value;
         return $this;
     }
 
-    public function offsetUnset($offset)
+    public function remove($offset)
     {
         if (isset($this->data[$offset])) {
             unset($this->data[$offset]);
@@ -58,11 +57,14 @@ class Container implements ArrayAccess
             throw new Exception(sprintf("The namespace '%s' is not class", $className));
         }
 
-        if ($this->offsetExists($className)) {
-            return $this->offsetGet($className);
+        if ($this->exists($className)) {
+            return $this->get($className);
         }
 
-        return $this->resolveByReflection($className);
+        $instance = $this->resolveByReflection($className);
+        $this->set($className, $instance);
+
+        return $instance;
     }
 
     private function resolveByReflection($className)
