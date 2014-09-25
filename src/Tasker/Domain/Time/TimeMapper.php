@@ -28,8 +28,9 @@ class TimeMapper
     public function insert(TimeEntity $time)
     {
         $data = array(
-            'task' => $time->getTask(),
+            'task'  => $time->getTask(),
             'start' => $time->getStart(),
+            'end'   => null,
         );
 
         $id = $this->repository->insert($data);
@@ -40,6 +41,8 @@ class TimeMapper
     {
         $data = array(
             'id'  => $time->getId(),
+            'task'  => $time->getTask(),
+            'start' => $time->getStart(),
             'end' => $time->getEnd(),
         );
 
@@ -48,7 +51,7 @@ class TimeMapper
 
     public function get($id)
     {
-        $data = $this->repository->get($id);
+        $data = $this->repository->find($id);
         if (!$data) {
             throw new Exception("The time '{$id}' could not be found");
         }
@@ -58,13 +61,13 @@ class TimeMapper
 
     public function getByTask($task)
     {
-        $data = $this->repository->getByTask($task);
+        $data = $this->repository->findByTask($task);
         return $this->factory->newCollection($data);
     }
 
     public function getAll()
     {
-        $data = $this->repository->getAll($task);
+        $data = $this->repository->findAll($task);
         return $this->factory->newCollection($data);
     }
 }

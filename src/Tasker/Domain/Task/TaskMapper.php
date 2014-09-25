@@ -42,6 +42,7 @@ class TaskMapper
     {
         $data = array(
             'id'          => $task->getId(),
+            'project'     => $task->getProject(),
             'name'        => $task->getName(),
             'description' => $task->getDescription(),
             'status'      => $task->getStatus(),
@@ -52,7 +53,7 @@ class TaskMapper
 
     public function get($id)
     {
-        $data = $this->repository->get($id);
+        $data = $this->repository->find($id);
         if (!$data) {
             throw new Exception("The task '{$id}' could not be found.");
         }
@@ -62,13 +63,13 @@ class TaskMapper
 
     public function getByProject($project)
     {
-        $data = $this->repository->getByProject($project);
+        $data = $this->repository->findByProject($project);
         return $this->factory->newCollection($data);
     }
 
     public function getAll()
     {
-        $data = $this->repository->getAll();
+        $data = $this->repository->findAll();
         return $this->factory->newCollection($data);
     }
 }

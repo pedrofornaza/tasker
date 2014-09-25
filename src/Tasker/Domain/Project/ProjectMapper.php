@@ -39,9 +39,9 @@ class ProjectMapper
     public function update(ProjectEntity $project)
     {
         $data = array(
+            'id'          => $project->getId(),
             'name'        => $project->getName(),
             'description' => $project->getDescription(),
-            'id'          => $project->getId(),
         );
 
         $this->repository->update($data);
@@ -49,7 +49,7 @@ class ProjectMapper
 
     public function get($id)
     {
-        $data = $this->repository->get($id);
+        $data = $this->repository->find($id);
         if (!$data) {
             throw new Exception("The project '{$id}' could not be found.");
         }
@@ -59,7 +59,7 @@ class ProjectMapper
 
     public function getAll()
     {
-        $data = $this->repository->getAll();
+        $data = $this->repository->findAll();
         return $this->factory->newCollection($data);
     }
 }
