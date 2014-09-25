@@ -1,17 +1,20 @@
 <?php
 
-namespace Tasker\Domain\Task;
+namespace Tasker\Infra\Persistence\Task;
 
 use Exception;
+use Tasker\Domain\Task\TaskEntity;
+use Tasker\Domain\Task\TaskFactory;
+use Tasker\Domain\Task\TaskRepository;
 
-class TaskMapper
+class TaskMapper implements TaskRepository
 {
-    protected $repository;
+    protected $gateway;
     protected $factory;
 
-    public function __construct(TaskRepository $repository, TaskFactory $factory)
+    public function __construct(TaskGateway $gateway, TaskFactory $factory)
     {
-        $this->repository = $repository;
+        $this->gateway = $gateway;
         $this->factory = $factory;
     }
 
@@ -34,7 +37,7 @@ class TaskMapper
             'status'      => $task->getStatus(),
         );
 
-        $id = $this->repository->insert($data);
+        $id = $this->gateway->insert($data);
         $task->setId($id);
     }
 
@@ -48,12 +51,12 @@ class TaskMapper
             'status'      => $task->getStatus(),
         );
 
-        $this->repository->update($data);
+        $this->gateway->update($data);
     }
 
     public function find($id)
     {
-        $data = $this->repository->find($id);
+        $data = $this->gateway->find($id);
         if (!$data) {
             throw new Exception("The task '{$id}' could not be found.");
         }
@@ -63,13 +66,13 @@ class TaskMapper
 
     public function findByProject($project)
     {
-        $data = $this->repository->findByProject($project);
+        $data = $this->gateway->findByProject($project);
         return $this->factory->newCollection($data);
     }
 
     public function findAll()
     {
-        $data = $this->repository->findAll();
+        $data = $this->gateway->findAll();
         return $this->factory->newCollection($data);
     }
 }

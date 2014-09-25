@@ -1,17 +1,20 @@
 <?php
 
-namespace Tasker\Domain\Project;
+namespace Tasker\Infra\Persistence\Project;
 
 use Exception;
+use Tasker\Domain\Project\ProjectEntity;
+use Tasker\Domain\Project\ProjectFactory;
+use Tasker\Domain\Project\ProjectRepository;
 
-class ProjectMapper
+class ProjectMapper implements ProjectRepository
 {
-    protected $repository;
+    protected $gateway;
     protected $factory;
 
-    public function __construct(ProjectRepository $repository, ProjectFactory $factory)
+    public function __construct(ProjectGateway $gateway, ProjectFactory $factory)
     {
-        $this->repository = $repository;
+        $this->gateway = $gateway;
         $this->factory = $factory;
     }
 
@@ -32,7 +35,7 @@ class ProjectMapper
             'description' => $project->getDescription(),
         );
 
-        $id = $this->repository->insert($data);
+        $id = $this->gateway->insert($data);
         $project->setId($id);
     }
 
@@ -44,12 +47,12 @@ class ProjectMapper
             'description' => $project->getDescription(),
         );
 
-        $this->repository->update($data);
+        $this->gateway->update($data);
     }
 
     public function find($id)
     {
-        $data = $this->repository->find($id);
+        $data = $this->gateway->find($id);
         if (!$data) {
             throw new Exception("The project '{$id}' could not be found.");
         }
@@ -59,7 +62,7 @@ class ProjectMapper
 
     public function findAll()
     {
-        $data = $this->repository->findAll();
+        $data = $this->gateway->findAll();
         return $this->factory->newCollection($data);
     }
 }

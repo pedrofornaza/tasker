@@ -2,13 +2,9 @@
 
 namespace Tasker\Domain\Project;
 
-use Tasker\Domain\AbstractRepository;
-
-class ProjectRepository extends AbstractRepository
+interface ProjectRepository
 {
-    protected $table = 'projects';
-    protected $columns = array(
-        'name',
-        'description',
-    );
+    public function save(ProjectEntity $project);
+    public function find($id);
+    public function findAll();
 }

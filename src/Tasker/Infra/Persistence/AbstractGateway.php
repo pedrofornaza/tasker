@@ -1,11 +1,11 @@
 <?php
 
-namespace Tasker\Domain;
+namespace Tasker\Infra\Persistence;
 
 use Exception;
 use PDO;
 
-abstract class AbstractRepository
+abstract class AbstractGateway
 {
     protected $db;
     protected $table;

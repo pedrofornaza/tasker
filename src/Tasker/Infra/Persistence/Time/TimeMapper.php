@@ -1,17 +1,20 @@
 <?php
 
-namespace Tasker\Domain\Time;
+namespace Tasker\Infra\Persistence\Time;
 
 use Exception;
+use Tasker\Domain\Time\TimeEntity;
+use Tasker\Domain\Time\TimeFactory;
+use Tasker\Domain\Time\TimeRepository;
 
-class TimeMapper
+class TimeMapper implements TimeRepository
 {
-    protected $repository;
+    protected $gateway;
     protected $factory;
 
-    public function __construct(TimeRepository $repository, TimeFactory $factory)
+    public function __construct(TimeGateway $gateway, TimeFactory $factory)
     {
-        $this->repository = $repository;
+        $this->gateway = $gateway;
         $this->factory = $factory;
     }
 
@@ -33,7 +36,7 @@ class TimeMapper
             'end'   => null,
         );
 
-        $id = $this->repository->insert($data);
+        $id = $this->gateway->insert($data);
         $time->setId($id);
     }
 
@@ -46,12 +49,12 @@ class TimeMapper
             'end' => $time->getEnd(),
         );
 
-        $this->repository->update($data);
+        $this->gateway->update($data);
     }
 
     public function find($id)
     {
-        $data = $this->repository->find($id);
+        $data = $this->gateway->find($id);
         if (!$data) {
             throw new Exception("The time '{$id}' could not be found");
         }
@@ -61,13 +64,13 @@ class TimeMapper
 
     public function findByTask($task)
     {
-        $data = $this->repository->findByTask($task);
+        $data = $this->gateway->findByTask($task);
         return $this->factory->newCollection($data);
     }
 
     public function findAll()
     {
-        $data = $this->repository->findAll($task);
+        $data = $this->gateway->findAll($task);
         return $this->factory->newCollection($data);
     }
 }

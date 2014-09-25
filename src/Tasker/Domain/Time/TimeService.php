@@ -6,16 +6,16 @@ use DateTime;
 
 class TimeService
 {
-    protected $mapper;
+    protected $repository;
 
-    public function __construct(TimeMapper $mapper)
+    public function __construct(TimeRepository $repository)
     {
-        $this->mapper = $mapper;
+        $this->repository = $repository;
     }
 
     public function findByTask($task)
     {
-        return $this->mapper->findByTask($task);
+        return $this->repository->findByTask($task);
     }
 
     public function save($data)
@@ -26,13 +26,13 @@ class TimeService
         $entity->setStart($datetime->format('Y-m-d h:i:s'));
 
         if ($data['type'] == 'end') {
-            $entity = $this->mapper->find($data['id']);
+            $entity = $this->repository->find($data['id']);
             $entity->setEnd($datetime->format('Y-m-d h:i:s'));
         }
 
         $entity->setTask($data['task']);
 
-        $this->mapper->save($entity);
+        $this->repository->save($entity);
 
         return $entity->getId();
     }

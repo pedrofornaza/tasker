@@ -2,23 +2,10 @@
 
 namespace Tasker\Domain\Time;
 
-use Tasker\Domain\AbstractRepository;
-
-class TimeRepository extends AbstractRepository
+interface TimeRepository
 {
-    protected $table = 'times';
-    protected $columns = array(
-        'task',
-        'start',
-        'end',
-    );
-
-    public function findByTask($task)
-    {
-        $data = array(
-            'task' => $task
-        );
-
-        return $this->findBy($data);
-    }
+    public function save(TimeEntity $time);
+    public function find($id);
+    public function findByTask($task);
+    public function findAll();
 }

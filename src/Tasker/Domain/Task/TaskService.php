@@ -4,21 +4,21 @@ namespace Tasker\Domain\Task;
 
 class TaskService
 {
-    protected $mapper;
+    protected $repository;
 
-    public function __construct(TaskMapper $mapper)
+    public function __construct(TaskRepository $repository)
     {
-        $this->mapper = $mapper;
+        $this->repository = $repository;
     }
 
     public function find($id)
     {
-        return $this->mapper->find($id);
+        return $this->repository->find($id);
     }
 
     public function findByProject($project)
     {
-        return $this->mapper->findByProject($project);
+        return $this->repository->findByProject($project);
     }
 
     public function save($data)
@@ -27,14 +27,14 @@ class TaskService
         $entity->setProject($data['project']);
 
         if ($data['id'] != null) {
-            $entity = $this->mapper->find($data['id']);
+            $entity = $this->repository->find($data['id']);
         }
 
         $entity->setName($data['name'])
                ->setDescription($data['description'])
                ->setStatus($data['status']);
 
-        $this->mapper->save($entity);
+        $this->repository->save($entity);
 
         return $entity->getId();
     }
