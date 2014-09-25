@@ -4,30 +4,13 @@ namespace Tasker\Domain\Time;
 
 use DateTime;
 use InvalidArgumentException;
+use Tasker\Domain\AbstractEntity;
 
-class TimeEntity
+class TimeEntity extends AbstractEntity
 {
-    protected $id;
     protected $task;
     protected $start;
     protected $end;
-
-    public function setId($id)
-    {
-        if (!is_int($id) &&
-            !is_numeric($id)
-        ) {
-            throw new InvalidArgumentException('The time id must be integer.');
-        }
-
-        $this->id = (int) $id;
-        return $this;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function setTask($task)
     {

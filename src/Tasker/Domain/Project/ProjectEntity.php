@@ -3,29 +3,12 @@
 namespace Tasker\Domain\Project;
 
 use InvalidArgumentException;
+use Tasker\Domain\AbstractEntity;
 
-class ProjectEntity
+class ProjectEntity extends AbstractEntity
 {
-    protected $id;
     protected $name;
     protected $description;
-
-    public function setId($id)
-    {
-        if (!is_int($id) &&
-            !is_numeric($id)
-        ) {
-            throw new InvalidArgumentException('The project id must be integer.');
-        }
-
-        $this->id = (int) $id;
-        return $this;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function setName($name)
     {
